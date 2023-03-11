@@ -1,13 +1,12 @@
-# Manifest cli
+# Manifest CLI
 
 ## Overview
-The Manifest cli is a cross-platform application and supports both amd and arm architectures. Using various methods, you can install it on Linux, Windows, or Mac (OSX).
+The Manifest CLI is a cross-platform application and supports both amd and arm architectures. Using various methods, you can install it on Linux, Windows, or Mac (OSX).
 
 ## Installation
 <details>
-<summary>apt</summary>
+<summary>Aptitude (apt)</summary>
 
-### apt
 ```bash
 echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" > /etc/apt/sources.list.d/fury.list
 sudo apt update
@@ -16,18 +15,16 @@ sudo apt install manifest
 </details>
 
 <details>
-<summary>homebrew</summary>
-
-### Homebrew (tap)
+<summary>Homebrew (tap)</summary>
+	
 ```bash
 brew install manifest-cyber/tap/manifest
 ```
-
 </details>
 
 <details>
 <summary>Docker</summary>
-### Docker
+	
 ```bash
 docker run --rm --privileged \
   -v $PWD:/go/src/github.com/user/repo \
@@ -37,60 +34,54 @@ docker run --rm --privileged \
   -e DOCKER_USERNAME \
   -e DOCKER_PASSWORD \
   -e DOCKER_REGISTRY \
-	-e MANIFEST_API_KEY \
-  manifest-cyber/cli merge
+  -e MANIFEST_API_KEY \
+manifest-cyber/cli merge
 ```
-
 </details>
 
 <details>
 <summary>Go</summary>
-### go install
+
 ```go
 go get github.com/manifest-cyber/cli
 ```
-
 </details>
 
 <details>
 <summary>Snapcraft</summary>
-### go install
+
 ```bash
 sudo snap install --classic manifest-cli
 ```
-
 </details>
 
 <details>
 <summary>Scoop</summary>
-### go install
+
 ```bash
 scoop bucket add manifest https://github.com/manifest-cyber/scoop-bucket.git 
 scoop install manifest
 ```
-
 </details>
 
 <details>
 <summary>Yum</summary>
-### yum
+
 ```bash
 echo '[fury] name=Gemfury Private Repo baseurl=https://manifest.fury.io/yum/ enabled=1 gpgcheck=0' | sudo tee /etc/yum.repos.d/fury.repo
 sudo yum install manifest
 ```
-
 </details>
 
 
 <details>
-<summary>Manually</summary>
+<summary>Manual Installation</summary>
 
-### Manually
+Download the pre-compiled binaries, `.deb`, `.rpm`, or `.apk`, from the [releases](https://github.com/manifest-cyber/cli/releases) page. 
+	Copy them to the desired location or install them with the appropriate tools.
 
-Download the pre-compiled binaries, .deb, .rpm, or .apk, from the [releases](https://github.com/manifest-cyber/cli/releases) page. Copy them to the desired location or install them with the appropriate tools.
-
-For Mac users, please note that the current release is not yet signed by Apple Developer. Therefore, you must enable it under Privacy & Security > Security > Open Anyway > Open. 
-
+For Mac users, please note that the current release is not yet signed by Apple Developer. 
+	Therefore, you must enable it under Privacy & Security > Security > Open Anyway > Open. 
 </details>
 
 ## Generating an SBOM (`sbom`)
