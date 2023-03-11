@@ -156,10 +156,9 @@ To create a new token, go to your profile in the Manifest App and click on the C
   
 ![Create a new token in the Manifest app](/img1.png)
   
-
 Once you have successfully created your key, copy it and save it in a secure location.
 
-![Token created](/img2.png)
+<img width="417" alt="image" src="https://user-images.githubusercontent.com/4471948/224496595-4770bac2-2b2c-4d39-9663-cecdb5e366f1.png">
 
 Remember to protect your API key! Avoid committing it to your source code or printing it as plain text. Instead, use secrets management tools to keep it secure 🧙.
 
@@ -167,7 +166,7 @@ Remember to protect your API key! Avoid committing it to your source code or pri
 
 The recommended way to use the API Key is via the `MANIFEST_API_KEY` environment variable.
 ```bash
-export MANIFEST_API_KEY=rrcoRKdmTwMFhE40k0t2s7JgJui07x0wX2kByXkJ0MM=
+export MANIFEST_API_KEY=your-api-token
 manifest merge --paths=sbom1.json,sbom2.json
 ```
 
