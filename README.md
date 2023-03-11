@@ -103,13 +103,13 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 `-f`, `--file`: filename for the output file (default is bom.json)
 
-`-h`: get helpon how to use the cli. 
+`-h`, `help`: get helpon how to use the cli. 
 
 `-o`, `--output`: SBOM format to use. Either cyclonedx-json or spdx-json. 
 
 `-n`, `--name`: name of the generated SBOM. Overrides any existing version info.
 
-`-p`, `--publish`: true/false, whether to send the SBOM to your Manifest app tenant. This requires an API token (see more below). Default: false. 
+`--publish`: true/false, whether to send the SBOM to your Manifest app tenant. This requires an API token (see more below). Default: false. 
 
 `v`, `--version`: version of the generated SBOM. Overrides any existing version info.
 
@@ -128,10 +128,24 @@ manifest sbom --paths=./example-sbom-generation-workflow-java-gradle --generator
 ## Merge
 Use the `merge` command to merge two or more SBOMs of the same format. 
 
+### Arguments
+The same arguments available for the `sbom` command are available for `merge`.
+
+`-i`, `--input-format`: SBOM format of the inputs, either cyclonedx or spdx. 
+
 ### Examples
 ```bash
 manifest merge --paths=scm-sbom.json,image-scm.json --input-format=cyclonedx --name=my-app
 ```
+
+
+
+## Contact
+Have any questions or need help? Don't hesitate to reach out: info@manifestcyber.com!
+
+
+
+
 
 
 
