@@ -143,7 +143,11 @@ manifest merge --paths=scm-sbom.json,image-scm.json --input-format=cyclonedx --n
 ## API Tokens for Publishing SBOMs
 To create a new token, go to your profile in the Manifest App and click on the Create New Token button. Then, fill out the form and click "confirm".
 
+![Create a new token in the Manifest app](/img1.png)
+
 Once you have successfully created your key, copy it and save it in a secure location.
+
+![Token created](/img2.png)
 
 Remember to protect your API key! Avoid committing it to your source code or printing it as plain text. Instead, use secrets management tools to keep it secure 🧙.
 
