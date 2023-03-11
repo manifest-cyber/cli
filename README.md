@@ -138,7 +138,20 @@ The same arguments available for the `sbom` command are available for `merge`.
 manifest merge --paths=scm-sbom.json,image-scm.json --input-format=cyclonedx --name=my-app
 ```
 
+## API Tokens for Publishing SBOMs
+To create a new token, go to your profile in the Manifest App and click on the Create New Token button. Then, fill out the form and click "confirm".
 
+Once you have successfully created your key, copy it and save it in a secure location.
+
+Remember to protect your API key! Avoid committing it to your source code or printing it as plain text. Instead, use secrets management tools to keep it secure 🧙.
+
+### Usage
+
+The recommended way to use the API Key is via the `MANIFEST_API_KEY` environment variable.
+```bash
+export MANIFEST_API_KEY=rrcoRKdmTwMFhE40k0t2s7JgJui07x0wX2kByXkJ0MM=
+manifest merge --paths=sbom1.json,sbom2.json
+```
 
 ## Contact
 Have any questions or need help? Don't hesitate to reach out: info@manifestcyber.com!
