@@ -105,6 +105,8 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 `-h`, `help`: get helpon how to use the cli. 
 
+`-k`, `--api-key`: Manifest API key, if publish is set to true. 
+
 `-o`, `--output`: SBOM format to use. Either cyclonedx-json or spdx-json. 
 
 `-n`, `--name`: name of the generated SBOM. Overrides any existing version info.
