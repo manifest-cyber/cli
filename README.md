@@ -143,7 +143,12 @@ manifest merge --paths=scm-sbom.json,image-scm.json --input-format=cyclonedx --n
 ## Generators
 Generators must be installed in order for the cli to use them. Syft is the default generator. Keep in mind that not all generators work the same or create the same outputs, we will add more information here later on that. 
 
-Supported generators: [syft](https://github.com/anchore/syft), [trivy](https://github.com/aquasecurity/trivy), [cdxgen](https://github.com/CycloneDX/cdxgen), [docker-sbom](https://docs.docker.com/engine/sbom/), [spdx-sbom-generator](https://github.com/opensbom-generator/spdx-sbom-generator)
+Supported generators: 
+- [syft](https://github.com/anchore/syft)
+- [trivy](https://github.com/aquasecurity/trivy)
+- [cdxgen](https://github.com/CycloneDX/cdxgen)
+- [docker-sbom](https://docs.docker.com/engine/sbom/)
+- [spdx-sbom-generator](https://github.com/opensbom-generator/spdx-sbom-generator)
 
 
 ## API Tokens for Publishing SBOMs
