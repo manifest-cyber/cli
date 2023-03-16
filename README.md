@@ -4,7 +4,7 @@
 The Manifest CLI is a cross-platform application and supports both amd and arm architectures. Using various methods, you can install it on Linux, Windows, or Mac (OSX).
 
 You can use the cli to
-- generate SBOMs (via the `sbom` command) from local filesystems or containers. 
+- generate SBOMs (via the `sbom` command) from local filesystems (e.g. a python project) or containers (e.g. alpine:latest). 
 - merge two or more SBOMs (of the same format) together into one SBOM, with the `merge` command
 
 
