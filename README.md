@@ -145,6 +145,7 @@ Supported generators:
 - [cdxgen](https://github.com/CycloneDX/cdxgen)
 - [docker-sbom](https://docs.docker.com/engine/sbom/)
 - [spdx-sbom-generator](https://github.com/opensbom-generator/spdx-sbom-generator)
+- [kubernetes sigstore-bom](https://github.com/kubernetes-sigs/bom)
 
 
 ## API Tokens for Publishing SBOMs
