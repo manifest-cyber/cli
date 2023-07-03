@@ -3,7 +3,7 @@
 ## Overview
 The Manifest CLI is a cross-platform application and supports both amd and arm architectures. Using various methods, you can install it on Linux, Windows, or Mac (OSX).
 
-You can use the cli to
+You can use the CLI to
 - generate SBOMs (via the `sbom` command) from local filesystems (e.g. a python project) or containers (e.g. alpine:latest). 
 - merge two or more SBOMs (of the same format) together into one SBOM, with the `merge` command
 
@@ -113,14 +113,36 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 `--`: to pass through additional arguments to specific generators, use the `--` separator at the end of the command, followed by any additional arguments. 
 
+### SBOM Generation Best Practices
+
+To enable full visibility into software dependencies and vulnerabilities, we recommend integrators implement SBOM generation following the build stage of a CI/CD pipeline. However, if there are dependencies that are pulled in during runtime, then SBOM generation should follow after the testing stage. Doing so ensures that all dependent software and artifacts are properly captured in the resulting SBOM. 
+
+An example of a dependency that is pulled in during runtime would be Docker containers. These containers are referenced with static blueprints (Dockerfile and docker-compose) in the source code. However, to get visibility into those containers, they would first need to be built or already exist within a container registry. For working with containers, store the image name and tag of the containers used within a variable so they can be referenced in the `sbom` command. See the examples below for more details.
+
+A general rule of thumb is that properly implemented SBOM generation within a CI/CD pipeline will almost always be more complete and accurate compared to an SBOM generated statically. In the cases where that is not true, the SBOMs are equivalent.
+
+Regardless of whether or not the SBOM generation is implemented within a CI/CD pipeline, it is **strongly** recommended to use paths instead of specific files. 
 
 ### Examples
-```bash
-manifest sbom --paths=./route-to-file,alpine:latest --generator=trivy
-```
+
+#### Quickstart
 
 ```bash
-manifest sbom --paths=./example-sbom-generation-workflow-java-gradle --generator=cdxgen --name=java-sbom --output=cyclonedx-json -- --type java
+manifest sbom --paths=./
+```
+
+#### SBOM Generation with specific container, generator, output format, and passthrough flags
+
+```bash
+manifest sbom --paths=./example-sbom-generation-workflow-java-gradle,alpine:latest --generator=cdxgen --name=java-sbom --output=cyclonedx-json -- --type java
+```
+
+#### Generation with specific file and container 
+
+**Be aware**: Generating an SBOM by pointing to specific files is not recommended. Doing so may result in an incomplete SBOM.
+
+```bash
+manifest sbom --paths=./route-to-file,alpine:latest --generator=trivy
 ```
 
 ## Merge
@@ -145,7 +167,7 @@ Supported generators:
 - [cdxgen](https://github.com/CycloneDX/cdxgen)
 - [docker-sbom](https://docs.docker.com/engine/sbom/)
 - [spdx-sbom-generator](https://github.com/opensbom-generator/spdx-sbom-generator)
-- [kubernetes sigstore-bom](https://github.com/kubernetes-sigs/bom)
+- [kubernetes sigstore-bom](https://github.com/kubernetes-sigs/bom) (`sigstore-bom`)
 
 
 ## API Tokens for Publishing SBOMs
