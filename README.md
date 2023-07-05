@@ -4,7 +4,7 @@
 The Manifest CLI is a cross-platform application and supports both amd and arm architectures. Using various methods, you can install it on Linux, Windows, or Mac (OSX).
 
 You can use the CLI to
-- generate SBOMs (via the `sbom` command) from local filesystems (e.g. a python project) or containers (e.g. alpine:latest). 
+- generate SBOMs (via the `sbom` command) from specific manifest files, local filesystems (e.g. a python project), and containers (e.g. alpine:latest). 
 - merge two or more SBOMs (of the same format) together into one SBOM, with the `merge` command
 
 
@@ -142,7 +142,7 @@ manifest sbom --paths=./example-sbom-generation-workflow-java-gradle,alpine:late
 **Be aware**: Generating an SBOM by pointing to specific files is not recommended. Doing so may result in an incomplete SBOM.
 
 ```bash
-manifest sbom --paths=./route-to-file,alpine:latest --generator=trivy
+manifest sbom --paths=./route-to-file,./go.mod,./go.sum,alpine:latest --generator=trivy
 ```
 
 ## Merge
