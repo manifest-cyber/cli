@@ -158,6 +158,40 @@ The same arguments available for the `sbom` command are available for `merge`.
 manifest merge --paths=scm-sbom.json,image-scm.json --input-format=cyclonedx --name=my-app
 ```
 
+## (Beta) Generating & Publishing SBOM Attestation
+
+## Keyless Signing
+
+Coming Soon!
+
+## Local Private Key Generation
+
+You will need `cosign` installed to proceed. [Click here to get started](https://github.com/sigstore/cosign/tree/main#installation).
+
+Run the following command to generate a public-private key pair. Users will be prompted for a password which will be required for all attestations with this key.
+
+This will result in two files being created: `cosign.key` and `cosign.pub` generated in the user's home directory.
+
+```bash
+cosign generate-key-pair --output-key-prefix ~/cosign
+```
+
+To generate a public-private key pair with a specific filename prefix:
+
+```bash
+cosign generate-key-pair --output-key-prefix=~/my-secret-key
+```
+
+In this example, two files will be created: `my-secret-key.key` and `my-secret-key.pub` in the user's home directory.
+
+To generate an SBOM with attestation using this key pair, two flags will need to be added: `--attest` and `--key`.
+
+Simply include these two flags in any of the examples found in [Quickstart](#quickstart) to generate attestations.
+
+```bash
+manifest sbom --paths ./ --attest --key my-secret-key.key
+```
+
 ## Generators
 Generators must be installed in order for the cli to use them. Syft is the default generator. Keep in mind that not all generators work the same or create the same outputs, we will add more information here later on that. 
 
