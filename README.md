@@ -102,25 +102,25 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 ### Arguments
 
-`-g`, `--generators`: the generator to use (syft, trivy, cdxgen, sigstore-bom).
+`-g`, `--generator`: the generator to use (syft, trivy, cdxgen, sigstore-bom).
 
 `-p`, `--paths`: the paths to local repositories, or name:version of a container, to scan [DEPRECATED: use positional arguments instead]
 
 `-f`, `--file`: filename for the output file (default is bom.json)
 
-`-h`, `help`: get helpon how to use the cli.
+`-h`, `help`: Get help on how to use the cli.
 
 `-k`, `--api-key`: Manifest API key, if publish is set to true.
 
 `-o`, `--output`: SBOM format to use. Either cyclonedx-json or spdx-json.
 
-`-n`, `--name`: name of the generated SBOM. Overrides any existing version info.
+`-n`, `--name`: Name of the generated SBOM. Overrides any existing version info.
 
-`--label`: one or more labels attached to the SBOM and the asset in Manifest app.
+`--label`: One or more labels to add to the SBOM. If the label does not exist, it will be created then applied to the SBOM. Use a single --label flag with comma delimited values, or multiple --label flag instances.
 
 `--publish`: true/false, whether to send the SBOM to your Manifest app tenant. This requires an API token (see more below). Default: false.
 
-`v`, `--version`: version of the generated SBOM. Overrides any existing version info.
+`v`, `--version`: Version of the generated SBOM. Overrides any existing version info.
 
 `--`: to pass through additional arguments to specific generators, use the `--` separator at the end of the command, followed by any additional arguments.
 
