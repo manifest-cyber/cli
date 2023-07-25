@@ -143,7 +143,7 @@ manifest sbom --paths=./
 #### SBOM Generation with specific container, generator, output format, and passthrough flags
 
 ```bash
-manifest sbom --paths=./example-sbom-generation-workflow-java-gradle,alpine:latest --generator=cdxgen --name=java-sbom --output=cyclonedx-json -- --type java
+manifest sbom --paths=./path/to/repo,alpine:latest --generator=cdxgen --name=java-sbom --output=cyclonedx-json -- --type java
 ```
 
 #### Generation with specific file and container
