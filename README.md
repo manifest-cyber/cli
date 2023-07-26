@@ -104,7 +104,7 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 `-g`, `--generators`: the generator to use (syft, trivy, cdxgen, sigstore-bom).
 
-`-p`, `--paths`: the paths to local repositories, or name:version of a container, to scan
+`-p`, `--paths`: the paths to local repositories, or name:version of a container, to scan [DEPRECATED: use positional arguments instead]
 
 `-f`, `--file`: filename for the output file (default is bom.json)
 
@@ -115,6 +115,8 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 `-o`, `--output`: SBOM format to use. Either cyclonedx-json or spdx-json.
 
 `-n`, `--name`: name of the generated SBOM. Overrides any existing version info.
+
+`--label`: one or more labels attached to the SBOM and the asset in Manifest app.
 
 `--publish`: true/false, whether to send the SBOM to your Manifest app tenant. This requires an API token (see more below). Default: false.
 
@@ -137,13 +139,13 @@ Regardless of whether or not the SBOM generation is implemented within a CI/CD p
 #### Quickstart
 
 ```bash
-manifest sbom --paths=./
+manifest sbom ./
 ```
 
 #### SBOM Generation with specific container, generator, output format, and passthrough flags
 
 ```bash
-manifest sbom --paths=./path/to/repo,alpine:latest --generator=cdxgen --name=java-sbom --output=cyclonedx-json -- --type java
+manifest sbom --label=production --label=java --generator=cdxgen --name=java-sbom --output=cyclonedx-json ./path/to/repo alpine:latest -- --type java
 ```
 
 #### Generation with specific file and container
@@ -151,7 +153,7 @@ manifest sbom --paths=./path/to/repo,alpine:latest --generator=cdxgen --name=jav
 **Be aware**: Generating an SBOM by pointing to specific files is not recommended. Doing so may result in an incomplete SBOM.
 
 ```bash
-manifest sbom --paths=./route-to-file,./go.mod,./go.sum,alpine:latest --generator=trivy
+manifest sbom --generator=trivy ./route-to-file ./go.mod ./go.sum alpine:latest
 ```
 
 ## Merge
@@ -167,7 +169,7 @@ The same arguments available for the `sbom` command are available for `merge`.
 ### Examples
 
 ```bash
-manifest merge --paths=scm-sbom.json,image-scm.json --input-format=cyclonedx --name=my-app
+manifest merge --input-format=cyclonedx --name=my-app scm-sbom.json image-scm.json
 ```
 
 ## (Beta) Generating & Publishing SBOM Attestation
@@ -201,13 +203,13 @@ To generate an SBOM with attestation using this key pair, two flags will need to
 Simply include these two flags in any of the examples found in [Quickstart](#quickstart) to generate attestations.
 
 ```bash
-manifest sbom --paths ./ --attest --key my-secret-key.key
+manifest sbom --attest --key my-secret-key.key ./
 ```
 
 This also supported for merging SBOMs.
 
 ```bash
-manifest merge --paths=sbom1.json,sbom2.json --attest --key my-secret-key.key
+manifest merge --attest --key my-secret-key.key sbom1.json sbom2.json
 ```
 
 ## Generators
@@ -241,7 +243,7 @@ The recommended way to use the API Key is via the `MANIFEST_API_KEY` environment
 
 ```bash
 export MANIFEST_API_KEY=your-api-token
-manifest merge --paths=sbom1.json,sbom2.json
+manifest merge sbom1.json sbom2.json
 ```
 
 ## Contact
