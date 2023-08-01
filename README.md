@@ -114,7 +114,7 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 `-o`, `--output`: SBOM format to use. Either cyclonedx-json or spdx-json.
 
-Note: CycloneDX released v1.5 on June 25, 2023. Currently, we only provide partial support for v1.5 and full support for prior versions.
+Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provides partial support for v1.5 and full support for prior versions.
 
 `-n`, `--name`: Name of the generated SBOM. Overrides any existing version info.
 
