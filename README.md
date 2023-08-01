@@ -19,6 +19,7 @@ curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh 
 ```
 
 `-b`: sets bindir or installation directory, Defaults to `./bin`.
+
 `-d`: turns on debug logging.
 
 Use a positional argument to pass a specific release.
@@ -29,6 +30,7 @@ curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh 
 
 </details>
 
+<details>
 <summary>Aptitude (apt)</summary>
 
 ```bash
