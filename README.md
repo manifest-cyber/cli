@@ -131,6 +131,8 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 `-o`, `--output`: SBOM format to use. Either cyclonedx-json or spdx-json.
 
+Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provides partial support for v1.5 and full support for prior versions.
+
 `-n`, `--name`: Name of the generated SBOM. Overrides any existing version info.
 
 `--label`: One or more labels to add to the SBOM. If the label does not exist, it will be created then applied to the SBOM. Use a single --label flag with comma delimited values, or multiple --label flag instances.
