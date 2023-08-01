@@ -12,6 +12,23 @@ You can use the CLI to
 ## Installation
 
 <details>
+<summary>Install script (Recommended)</summary>
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s
+```
+
+`-b`: sets bindir or installation directory, Defaults to `./bin`.
+`-d`: turns on debug logging.
+
+Use a positional argument to pass a specific release.
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.9.5
+```
+
+</details>
+
 <summary>Aptitude (apt)</summary>
 
 ```bash
