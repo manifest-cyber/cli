@@ -264,7 +264,7 @@ The recommended way to use the API Key is via the `MANIFEST_API_KEY` environment
 
 ```bash
 export MANIFEST_API_KEY=your-api-token
-manifest merge sbom1.json sbom2.json
+manifest sbom ./ --publish
 ```
 
 ## Contact
