@@ -1,5 +1,10 @@
 # Manifest CLI
 
+## Notice
+
+Starting _January 31st, 2024_ all Manifest CLI releases will be named `manifest-cli` and changed away from the current name: `manifest`.
+Users will need to change the name anywhere that `manifest` is being called (e.g. pipelines or scripts) to get the latest Manifest CLI functionality.
+
 ## Overview
 
 The Manifest CLI is a cross-platform application and supports both amd and arm architectures. Using various methods, you can install it on Linux, Windows, or Mac (OSX).
