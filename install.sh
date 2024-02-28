@@ -55,9 +55,10 @@ execute() {
     log_info "installed ${BINDIR}/${binexe}"
 
     # create a symlink to the binary in the current directory
-    pushd "${BINDIR}" >/dev/null
+    original_dir=$(pwd)
+    cd "${BINDIR}"
     ln -s "${binexe}" "manifest"
-    popd >/dev/null
+    cd "${original_dir}"
     log_info "created symlink ${BINDIR}/manifest -> ${BINDIR}/${binexe} to use 'manifest' command"
   done
   rm -rf "${tmpdir}"
@@ -83,9 +84,10 @@ execute_legacy() {
     install "${tmpdir}/${binexe}" "${BINDIR}/"
     log_info "installed legacy binary ${BINDIR}/${binexe}"
 
-    pushd "${BINDIR}" >/dev/null
+    original_dir=$(pwd)
+    cd "${BINDIR}"
     ln -s "${binexe}" "manifest-cli"
-    popd >/dev/null
+    cd "${original_dir}"
     log_info "created symlink ${BINDIR}/manifest-cli -> ${BINDIR}/${binexe} to use 'manifest-cli' command"
   done
   rm -rf "${tmpdir}"
