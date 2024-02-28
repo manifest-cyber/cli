@@ -44,7 +44,7 @@ execute() {
   log_debug "downloading files into ${tmpdir}"
   http_download "${tmpdir}/${TARBALL}" "${TARBALL_URL}"
   http_download "${tmpdir}/${CHECKSUM}" "${CHECKSUM_URL}"
-  hash_sha256_verify "${tmpdir}/${TARBALL}" "${tmpdir}/${CHECKSUM}"
+  hash_sha256_verify "${tmpdir}/${TARBALL}" "${tmpdir}/${CHECKSUM}" || return 1
   (cd "${tmpdir}" && untar "${TARBALL}")
   test ! -d "${BINDIR}" && install -d "${BINDIR}"
   for binexe in $BINARIES; do
@@ -53,51 +53,86 @@ execute() {
     fi
     install "${tmpdir}/${binexe}" "${BINDIR}/"
     log_info "installed ${BINDIR}/${binexe}"
+
+    # create a symlink to the binary in the current directory
+    pushd "${BINDIR}" >/dev/null
+    ln -s "${binexe}" "manifest"
+    popd >/dev/null
+    log_info "created symlink ${BINDIR}/manifest -> ${BINDIR}/${binexe} to use 'manifest' command"
   done
   rm -rf "${tmpdir}"
 }
+
+execute_legacy() {
+  tmpdir=$(mktemp -d)
+  log_info "unable to find manifest-cli, falling back to legacy manifest"
+  log_debug "downloading files into ${tmpdir}"
+  TARBALL=$(echo "$TARBALL" | sed 's/-cli//g')
+  TARBALL_URL=$(echo "$TARBALL_URL" | sed 's/-cli//g')
+  CHECKSUM_URL=$(echo "$CHECKSUM_URL" | sed 's/-cli//g')
+  http_download "${tmpdir}/${TARBALL}" "${TARBALL_URL}"
+  http_download "${tmpdir}/${CHECKSUM}" "${CHECKSUM_URL}"
+  hash_sha256_verify "${tmpdir}/${TARBALL}" "${tmpdir}/${CHECKSUM}"
+  (cd "${tmpdir}" && untar "${TARBALL}")
+  test ! -d "${BINDIR}" && install -d "${BINDIR}"
+  for binexe in $BINARIES; do
+    if [ "$OS" = "windows" ]; then
+      binexe="${binexe}.exe"
+    fi
+    binexe="${binexe%-cli}" # Remove "-cli" from the string name
+    install "${tmpdir}/${binexe}" "${BINDIR}/"
+    log_info "installed legacy binary ${BINDIR}/${binexe}"
+
+    pushd "${BINDIR}" >/dev/null
+    ln -s "${binexe}" "manifest-cli"
+    popd >/dev/null
+    log_info "created symlink ${BINDIR}/manifest-cli -> ${BINDIR}/${binexe} to use 'manifest-cli' command"
+  done
+  rm -rf "${tmpdir}"
+}
+
 get_binaries() {
   case "$PLATFORM" in
-  darwin/amd64) BINARIES="manifest" ;;
-  darwin/arm64) BINARIES="manifest" ;;
-  darwin/armv6) BINARIES="manifest" ;;
-  darwin/armv7) BINARIES="manifest" ;;
-  darwin/mips64) BINARIES="manifest" ;;
-  darwin/mips64le) BINARIES="manifest" ;;
-  darwin/ppc64le) BINARIES="manifest" ;;
-  darwin/s390x) BINARIES="manifest" ;;
-  freebsd/386) BINARIES="manifest" ;;
-  freebsd/amd64) BINARIES="manifest" ;;
-  freebsd/armv6) BINARIES="manifest" ;;
-  freebsd/armv7) BINARIES="manifest" ;;
-  freebsd/mips64) BINARIES="manifest" ;;
-  freebsd/mips64le) BINARIES="manifest" ;;
-  freebsd/ppc64le) BINARIES="manifest" ;;
-  freebsd/s390x) BINARIES="manifest" ;;
-  linux/386) BINARIES="manifest" ;;
-  linux/amd64) BINARIES="manifest" ;;
-  linux/arm64) BINARIES="manifest" ;;
-  linux/armv6) BINARIES="manifest" ;;
-  linux/armv7) BINARIES="manifest" ;;
-  linux/mips64) BINARIES="manifest" ;;
-  linux/mips64le) BINARIES="manifest" ;;
-  linux/ppc64le) BINARIES="manifest" ;;
-  linux/s390x) BINARIES="manifest" ;;
-  linux/riscv64) BINARIES="manifest" ;;
-  linux/loong64) BINARIES="manifest" ;;
-  netbsd/386) BINARIES="manifest" ;;
-  netbsd/amd64) BINARIES="manifest" ;;
-  netbsd/armv6) BINARIES="manifest" ;;
-  netbsd/armv7) BINARIES="manifest" ;;
-  windows/386) BINARIES="manifest" ;;
-  windows/amd64) BINARIES="manifest" ;;
-  windows/arm64) BINARIES="manifest" ;;
-  windows/armv6) BINARIES="manifest" ;;
-  windows/armv7) BINARIES="manifest" ;;
-  windows/mips64) BINARIES="manifest" ;;
-  windows/mips64le) BINARIES="manifest" ;;
-  windows/ppc64le) BINARIES="manifest" ;;
-  windows/s390x) BINARIES="manifest" ;;
+  darwin/amd64) BINARIES="manifest-cli" ;;
+  darwin/arm64) BINARIES="manifest-cli" ;;
+  darwin/armv6) BINARIES="manifest-cli" ;;
+  darwin/armv7) BINARIES="manifest-cli" ;;
+  darwin/mips64) BINARIES="manifest-cli" ;;
+  darwin/mips64le) BINARIES="manifest-cli" ;;
+  darwin/ppc64le) BINARIES="manifest-cli" ;;
+  darwin/s390x) BINARIES="manifest-cli" ;;
+  freebsd/386) BINARIES="manifest-cli" ;;
+  freebsd/amd64) BINARIES="manifest-cli" ;;
+  freebsd/armv6) BINARIES="manifest-cli" ;;
+  freebsd/armv7) BINARIES="manifest-cli" ;;
+  freebsd/mips64) BINARIES="manifest-cli" ;;
+  freebsd/mips64le) BINARIES="manifest-cli" ;;
+  freebsd/ppc64le) BINARIES="manifest-cli" ;;
+  freebsd/s390x) BINARIES="manifest-cli" ;;
+  linux/386) BINARIES="manifest-cli" ;;
+  linux/amd64) BINARIES="manifest-cli" ;;
+  linux/arm64) BINARIES="manifest-cli" ;;
+  linux/armv6) BINARIES="manifest-cli" ;;
+  linux/armv7) BINARIES="manifest-cli" ;;
+  linux/mips64) BINARIES="manifest-cli" ;;
+  linux/mips64le) BINARIES="manifest-cli" ;;
+  linux/ppc64le) BINARIES="manifest-cli" ;;
+  linux/s390x) BINARIES="manifest-cli" ;;
+  linux/riscv64) BINARIES="manifest-cli" ;;
+  linux/loong64) BINARIES="manifest-cli" ;;
+  netbsd/386) BINARIES="manifest-cli" ;;
+  netbsd/amd64) BINARIES="manifest-cli" ;;
+  netbsd/armv6) BINARIES="manifest-cli" ;;
+  netbsd/armv7) BINARIES="manifest-cli" ;;
+  windows/386) BINARIES="manifest-cli" ;;
+  windows/amd64) BINARIES="manifest-cli" ;;
+  windows/arm64) BINARIES="manifest-cli" ;;
+  windows/armv6) BINARIES="manifest-cli" ;;
+  windows/armv7) BINARIES="manifest-cli" ;;
+  windows/mips64) BINARIES="manifest-cli" ;;
+  windows/mips64le) BINARIES="manifest-cli" ;;
+  windows/ppc64le) BINARIES="manifest-cli" ;;
+  windows/s390x) BINARIES="manifest-cli" ;;
   *)
     log_crit "platform $PLATFORM is not supported.  Make sure this script is up-to-date and file request at https://github.com/${PREFIX}/issues/new"
     exit 1
@@ -364,7 +399,7 @@ EOF
 PROJECT_NAME="cli"
 OWNER=manifest-cyber
 REPO="cli"
-BINARY=manifest
+BINARY=manifest-cli
 FORMAT=tar.gz
 OS=$(uname_os)
 ARCH=$(uname_arch)
@@ -400,4 +435,4 @@ TARBALL_URL=${GITHUB_DOWNLOAD}/${TAG}/${TARBALL}
 CHECKSUM=checksums.txt
 CHECKSUM_URL=${GITHUB_DOWNLOAD}/${TAG}/${CHECKSUM}
 
-execute
+execute || execute_legacy
