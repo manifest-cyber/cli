@@ -128,7 +128,7 @@ The `sbom` command generates an SBOM on any number of targets (paths to source c
 
 `-g`, `--generator`: the generator to use (syft, trivy, cdxgen, sigstore-bom).
 
-`-p`, `--paths`: the paths to local repositories, or name:version of a container, to scan [DEPRECATED: use positional arguments instead]
+`-p`, `--paths`: the paths to local repositories, or name:version of a container, to scan **[DEPRECATED: use positional arguments instead]**
 
 `-f`, `--file`: filename for the output file (default is bom.json)
 
@@ -142,7 +142,13 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 
 `-n`, `--name`: Name of the generated SBOM. Overrides any existing version info.
 
-`--label`: One or more labels to add to the SBOM. If the label does not exist, it will be created then applied to the SBOM. Use a single --label flag with comma delimited values, or multiple --label flag instances.
+`--label`: One or more labels to add to the SBOM. If the label does not exist, it will be created then applied to the SBOM. Use a single --label flag with comma delimited values, or multiple --label flag instances. **pending deprecation: use --asset-label instead.**
+
+`-P`, `--product-id`: Assign an SBOM to a product by providing a product ID. You may create products through the Manifest UI.
+
+`--asset-label`: One or more labels to add to the SBOM's asset. If the label does not exist, it will be created. Use a single `--asset-label` flag with comma delimited values, or multiple `--asset-label flag` instances to add multiple labels to an asset.
+
+`--product-label`: One or more labels to add to the product. If the label does not exist, it will be created. Use a single `--product-label` flag with comma delimited values, or multiple `--product-label` flag instances to add multiple labels to a product. You must send a valid `--product-id` in order for the `--product-label` values to be assigned properly.
 
 `--publish`: true/false, whether to send the SBOM to your Manifest app tenant. This requires an API token (see more below). Default: false.
 
@@ -171,7 +177,13 @@ manifest sbom ./
 #### SBOM Generation with specific container, generator, output format, and passthrough flags
 
 ```bash
-manifest sbom --label=production --label=java --generator=cdxgen --name=java-sbom --output=cyclonedx-json ./path/to/repo alpine:latest -- --type java
+manifest sbom --asset-label=production --asset-label=java --generator=cdxgen --name=java-sbom --output=cyclonedx-json ./path/to/repo alpine:latest -- --type java
+```
+
+#### SBOM Generation with product assignment and labels
+
+```bash
+manifest sbom --product-id=MY_PRODUCT_ID --product-label=production --product-label=golang --name=my-sbom --version=v1.0.0 --output=spdx-json ./path/to/repo
 ```
 
 #### Generation with specific file and container
