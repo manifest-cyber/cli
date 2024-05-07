@@ -50,7 +50,7 @@ sudo apt install manifest
 <summary>Homebrew (tap)</summary>
 	
 ```bash
-brew install manifest-cyber/tap/manifest
+brew install manifest-cyber/tap/manifest-cli
 ```
 </details>
 
@@ -93,8 +93,8 @@ sudo snap install --classic manifest-cli
 <summary>Scoop</summary>
 
 ```bash
-scoop bucket add manifest https://github.com/manifest-cyber/scoop-bucket.git
-scoop install manifest
+scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
+scoop install manifest-cli
 ```
 
 </details>
@@ -104,7 +104,7 @@ scoop install manifest
 
 ```bash
 echo '[fury] name=Gemfury Private Repo baseurl=https://manifest.fury.io/yum/ enabled=1 gpgcheck=0' | sudo tee /etc/yum.repos.d/fury.repo
-sudo yum install manifest
+sudo yum install manifest-cli
 ```
 
 </details>
@@ -171,7 +171,7 @@ Regardless of whether or not the SBOM generation is implemented within a CI/CD p
 #### Quickstart
 
 ```bash
-manifest sbom ./
+manifest-cli sbom ./
 ```
 
 #### SBOM Generation with specific container, generator, output format, and passthrough flags
@@ -207,7 +207,7 @@ The same arguments available for the `sbom` command are available for `merge`.
 ### Examples
 
 ```bash
-manifest merge --input-format=cyclonedx --name=my-app scm-sbom.json image-scm.json
+manifest-cli merge --input-format=cyclonedx --name=my-app scm-sbom.json image-scm.json
 ```
 
 ## (Beta) Generating & Publishing SBOM Attestation
@@ -241,13 +241,13 @@ To generate an SBOM with attestation using this key pair, two flags will need to
 Simply include these two flags in any of the examples found in [Quickstart](#quickstart) to generate attestations.
 
 ```bash
-manifest sbom --attest --key my-secret-key.key ./
+manifest-cli sbom --attest --key my-secret-key.key ./
 ```
 
 This also supported for merging SBOMs.
 
 ```bash
-manifest merge --attest --key my-secret-key.key sbom1.json sbom2.json
+manifest-cli merge --attest --key my-secret-key.key sbom1.json sbom2.json
 ```
 
 ## Generators
@@ -281,7 +281,7 @@ The recommended way to use the API Key is via the `MANIFEST_API_KEY` environment
 
 ```bash
 export MANIFEST_API_KEY=your-api-token
-manifest sbom ./ --publish
+manifest-cli sbom ./ --publish
 ```
 
 ## Contact
