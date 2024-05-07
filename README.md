@@ -41,7 +41,7 @@ curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh 
 ```bash
 echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" > /etc/apt/sources.list.d/fury.list
 sudo apt update
-sudo apt install manifest
+sudo apt install manifest-cli
 ```
 
 </details>
@@ -177,13 +177,13 @@ manifest-cli sbom ./
 #### SBOM Generation with specific container, generator, output format, and passthrough flags
 
 ```bash
-manifest sbom --asset-label=production --asset-label=java --generator=cdxgen --name=java-sbom --output=cyclonedx-json ./path/to/repo alpine:latest -- --type java
+manifest-cli sbom --asset-label=production --asset-label=java --generator=cdxgen --name=java-sbom --output=cyclonedx-json ./path/to/repo alpine:latest -- --type java
 ```
 
 #### SBOM Generation with product assignment and labels
 
 ```bash
-manifest sbom --product-id=MY_PRODUCT_ID --product-label=production --product-label=golang --name=my-sbom --version=v1.0.0 --output=spdx-json ./path/to/repo
+manifest-cli sbom --product-id=MY_PRODUCT_ID --product-label=production --product-label=golang --name=my-sbom --version=v1.0.0 --output=spdx-json ./path/to/repo
 ```
 
 #### Generation with specific file and container
@@ -191,7 +191,7 @@ manifest sbom --product-id=MY_PRODUCT_ID --product-label=production --product-la
 **Be aware**: Generating an SBOM by pointing to specific files is not recommended. Doing so may result in an incomplete SBOM.
 
 ```bash
-manifest sbom --generator=trivy ./route-to-file ./go.mod ./go.sum alpine:latest
+manifest-cli sbom --generator=trivy ./route-to-file ./go.mod ./go.sum alpine:latest
 ```
 
 ## Merge
