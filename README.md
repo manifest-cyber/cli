@@ -120,6 +120,18 @@ Therefore, you must enable it under Privacy & Security > Security > Open Anyway 
 
 </details>
 
+## Installing generators
+
+The `install` command can help you install supported generators that are required for generating SBOM with this tool
+
+**NOTE**: On Windows, you must have WSL enabled or `bash` available at the path. Otherwise, this command will not work.
+
+### Arguments
+
+` -d`, `--destination`: Installation destination string (default "/usr/local/bin")
+`-g`, `--generator`: Name of generator to install. Supported options: [syft|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
+`--version`: Installs specific version of the generator
+
 ## Generating an SBOM (`sbom`)
 
 The `sbom` command generates an SBOM on any number of targets (paths to source code, containers, etc.), using a specified open-source SBOM generator (our default is Syft). Make sure to install the relevant generators first before using them in the cli (see the Generators section below)
