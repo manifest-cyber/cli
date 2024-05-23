@@ -164,6 +164,10 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 
 `--publish`: true/false, whether to send the SBOM to your Manifest app tenant. This requires an API token (see more below). Default: false.
 
+`--generator-preset`: set generator config preset. (recommended, none)
+
+`--generator-config`: set path to generator config file (if applicable)
+
 `v`, `--version`: Version of the generated SBOM. Overrides any existing version info.
 
 `--`: to pass through additional arguments to specific generators, use the `--` separator at the end of the command, followed by any additional arguments.
