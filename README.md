@@ -103,10 +103,15 @@ scoop install manifest-cli
 <summary>Yum</summary>
 
 ```bash
-echo '[fury] name=Gemfury Private Repo baseurl=https://manifest.fury.io/yum/ enabled=1 gpgcheck=0' | sudo tee /etc/yum.repos.d/fury.repo
+echo '[fury]
+name=Manifest Cyber
+baseurl=https://manifest.fury.io/yum/
+enabled=1
+gpgcheck=0' | sudo tee /etc/yum.repos.d/manifest-cyber.repo
 sudo yum install manifest-cli
 ```
 
+- if running as admin, you can omit `sudo`.
 </details>
 
 <details>
