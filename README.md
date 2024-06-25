@@ -30,7 +30,7 @@ curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh 
 Use a positional argument to pass a specific release.
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.9.5
+curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
 ```
 
 </details>
@@ -139,7 +139,45 @@ The `install` command can help you install supported generators that are require
 
 ## Generating an SBOM (`sbom`)
 
-The `sbom` command generates an SBOM on any number of targets (paths to source code, containers, etc.), using a specified open-source SBOM generator (our default is Syft). Make sure to install the relevant generators first before using them in the cli (see the Generators section below)
+The `sbom` command generates an SBOM on any number of targets (paths to source code, containers, etc.), using a specified open-source SBOM generator (our default is Syft). Make sure to install the relevant generators first before using them in the CLI (see the Generators section below).
+
+It is essential that the generator installation location is part of the OS execution path.
+
+### Adding a Folder to the Path (Mac/Linux)
+
+To add a folder to the path in OSX or Linux, you can follow these steps:
+
+1. Open a terminal.
+2. Locate the folder you want to add to the path.
+3. Copy the path of the folder.
+4. Open the `.bashrc` or `.bash_profile` file in a text editor. This file is usually located in your home directory.
+5. Add the following line at the end of the file, replacing `/path/to/folder` with the actual path of the folder you want to add:
+
+```bash
+export PATH="/path/to/folder:$PATH"
+```
+
+6. Save the file and exit the text editor.
+7. Restart your terminal or run the following command to apply the changes:
+
+```bash
+source ~/.bashrc
+```
+
+### Adding a Folder to the Path (Windows)
+
+To add a folder to the path in Windows, you can follow these steps:
+
+1. Open the Start menu and search for "Environment Variables".
+2. Click on "Edit the system environment variables".
+3. In the System Properties window, click on the "Environment Variables" button.
+4. In the "System Variables" section, scroll down and select the "Path" variable.
+5. Click on the "Edit" button.
+6. Click on the "New" button and enter the path of the folder you want to add.
+7. Click "OK" to save the changes.
+8. Restart your terminal or any open command prompt windows for the changes to take effect.
+
+Remember to replace `/path/to/folder` with the actual path of the folder you want to add.
 
 ### Arguments
 
