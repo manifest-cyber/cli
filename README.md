@@ -185,7 +185,7 @@ Remember to replace `/path/to/folder` with the actual path of the folder you wan
 
 `-p`, `--paths`: **[DEPRECATED: use positional arguments instead]** the paths to local repositories, or name:version of a container, to scan.
 
-`-f`, `--file`: filename for the output file.(default is bom.json)
+`-f`, `--file`: filename for the output file.
 
 `-h`, `help`: Get help on how to use the cli.
 
@@ -200,6 +200,8 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 `--label`: **[DEPRECATED] use --asset-label instead.** One or more labels to add to the SBOM. If the label does not exist, it will be created then applied to the SBOM. Use a single --label flag with comma delimited values, or multiple --label flag instances.
 
 `--product-id`: Assign an SBOM to a product by providing a product ID. You may create products through the Manifest UI.
+
+`--active`: Whether this SBOM should be marked as Active (defaults to true/Active)
 
 `--asset-label`: One or more labels to add to the SBOM's asset. If the label does not exist, it will be created. Use a single `--asset-label` flag with comma delimited values, or multiple `--asset-label` flag instances to add multiple labels to an asset.
 
