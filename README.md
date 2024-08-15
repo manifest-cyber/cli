@@ -137,6 +137,12 @@ The `install` command can help you install supported generators that are require
 `-g`, `--generator`: Name of generator to install. Supported options: [syft|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
 `--version`: Installs specific version of the generator
 
+### Generator Installation Example
+This command installs the generator globally.
+```bash
+manifest-cli install -g cdxgen
+```
+
 ## Generating an SBOM (`sbom`)
 
 The `sbom` command generates an SBOM on any number of targets (paths to source code, containers, etc.), using a specified open-source SBOM generator (our default is Syft). Make sure to install the relevant generators first before using them in the CLI (see the Generators section below).
