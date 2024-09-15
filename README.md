@@ -72,15 +72,6 @@ manifest-cyber/cli merge
 </details>
 
 <details>
-<summary>Go</summary>
-
-```go
-go get github.com/manifest-cyber/cli
-```
-
-</details>
-
-<details>
 <summary>Snapcraft</summary>
 
 ```bash
@@ -138,7 +129,9 @@ The `install` command can help you install supported generators that are require
 `--version`: Installs specific version of the generator
 
 ### Generator Installation Example
+
 This command installs the generator globally.
+
 ```bash
 manifest-cli install -g cdxgen
 ```
