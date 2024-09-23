@@ -207,7 +207,7 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 
 `--product-id`: Assign an SBOM to a product by providing a product ID. You may create products through the Manifest UI.
 
-`--active`: Whether this SBOM should be marked as Active (defaults to true/Active)
+`--active={true|false}`: Whether this SBOM should be marked as Active when uploading, if not present the default of your organization's setting will be used (which is typically `true`).
 
 `--asset-label`: One or more labels to add to the SBOM's asset. If the label does not exist, it will be created. Use a single `--asset-label` flag with comma delimited values, or multiple `--asset-label` flag instances to add multiple labels to an asset.
 
