@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: Install Harness (with apt sources)
         run: |
-          echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" > /etc/apt/sources.list.d/fury.list
+          echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" | sudo tee /etc/apt/sources.list.d/fury.list
           apt update -y
           apt install -y manifest-cli
 
@@ -64,17 +64,17 @@ jobs:
           $env:SCOOP_CONFIRM='true'
           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
           irm get.scoop.sh | iex
-          # Add Scoop to the PATH for all subsequent steps
           $scoopPath = "$env:USERPROFILE\scoop\shims"
           echo "Adding $scoopPath to PATH"
           $env:PATH += ";$scoopPath"
       
       - name: Install Harness (with scoop)
         run: |
-          $env:SCOOP_CONFIRM='true'
+          $env:PATH += ";$env:USERPROFILE\scoop\shims"
           scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
           scoop install manifest-cli
 
       - name: Verify installation
         run: |
+          $env:PATH += ";$env:USERPROFILE\scoop\shims"
           manifest-cli --version
