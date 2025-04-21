@@ -30,14 +30,18 @@ jobs:
   install-with-apt:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Harness (with apt sources)
+      - name: Add Manifest Fury repository
         run: |
           echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" | sudo tee /etc/apt/sources.list.d/fury.list
-          apt update -y
-          apt install -y manifest-cli
+          sudo apt update -y
+          
+      - name: Install Harness (with apt)
+        run: |
+          sudo apt install -y manifest-cli
 
       - name: Verify installation
-        run: manifest-cli --version
+        run: |
+          manifest-cli --version
 
   install-with-yum:
     runs-on: ubuntu-latest
