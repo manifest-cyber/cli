@@ -1,9 +1,8 @@
 # Manifest CLI
 
-## Notice
-
-Starting _January 31st, 2024_ all Manifest CLI releases will be named `manifest-cli` and changed away from the current name: `manifest`.
-Users will need to change the name anywhere that `manifest` is being called (e.g. pipelines or scripts) to get the latest Manifest CLI functionality.
+> [!NOTE] 
+> Starting _January 31st, 2024_ all Manifest CLI releases will be named `manifest-cli` and changed away from the current name: `manifest`.
+> Users will need to change the name anywhere that `manifest` is being called (e.g. pipelines or scripts) to get the latest Manifest CLI functionality.
 
 ## Overview
 
@@ -52,41 +51,6 @@ sudo apt install manifest-cli
 ```bash
 brew install manifest-cyber/tap/manifest-cli
 ```
-</details>
-
-<details>
-<summary>Docker</summary>
-	
-```bash
-docker run --rm --privileged \
-  -v $PWD:/go/src/github.com/user/repo \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -w /go/src/github.com/user/repo \
-  -e GITHUB_TOKEN \
-  -e DOCKER_USERNAME \
-  -e DOCKER_PASSWORD \
-  -e DOCKER_REGISTRY \
-  -e MANIFEST_API_KEY \
-manifest-cyber/cli merge
-```
-</details>
-
-<details>
-<summary>Go</summary>
-
-```go
-go get github.com/manifest-cyber/cli
-```
-
-</details>
-
-<details>
-<summary>Snapcraft</summary>
-
-```bash
-sudo snap install --classic manifest-cli
-```
-
 </details>
 
 <details>
