@@ -344,11 +344,11 @@ Remember to protect your API key! Avoid committing it to your source code or pri
 
 ### Usage
 
-The recommended way to use the API Key is via the `MANIFEST_API_KEY` environment variable.
+The recommended way to use the API Key is via the `MANIFEST_API_KEY` environment variable. The `-f` flag is required in this case to ensure the file being uploaded has the correct `.json` file extension that is supported by the api.
 
 ```bash
 export MANIFEST_API_KEY=your-api-token
-manifest-cli sbom ./ --publish
+manifest-cli sbom ./ -f sbom.json --publish
 ```
 
 ## Contact
