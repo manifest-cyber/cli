@@ -1,12 +1,15 @@
 name: Install Harness
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
   push:
     branches:
-      - "plat-459/fix-install-methods" # for testing CI
+      - "main"
 
-  # schedule:
-  #   - cron: "0 0 * * *" # every day at midnight
+  schedule:
+    - cron: "0 0 * * *" # every day at midnight (utc)
 
 jobs:
   install-with-brew:
@@ -24,6 +27,7 @@ jobs:
       - name: Install Harness (with curl)
         run: curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s
 
+      # this should be `manifest-cli`! `manifest` is deprecated now.
       - name: Verify installation
         run: manifest --version
           
