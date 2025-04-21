@@ -3,11 +3,10 @@ name: Install Harness
 on:
   push:
     branches:
-      - "main"
-      - "plat-459/fix-install-methods"
+      - "plat-459/fix-install-methods" # for testing CI
 
-  schedule:
-    - cron: "0 0 * * *" # every day at midnight
+  # schedule:
+  #   - cron: "0 0 * * *" # every day at midnight
 
 jobs:
   install-with-brew:
@@ -26,7 +25,7 @@ jobs:
         run: curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s
 
       - name: Verify installation
-        run: manifest-cli --version
+        run: manifest --version
           
   install-with-apt:
     runs-on: ubuntu-latest
@@ -34,8 +33,8 @@ jobs:
       - name: Install Harness (with apt sources)
         run: |
           echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" > /etc/apt/sources.list.d/fury.list
-          sudo apt update
-          sudo apt install manifest-cli
+          apt update -y
+          apt install -y manifest-cli
 
       - name: Verify installation
         run: manifest-cli --version
@@ -51,8 +50,8 @@ jobs:
           name=Manifest Cyber
           baseurl=https://manifest.fury.io/yum/
           enabled=1
-          gpgcheck=0' | sudo tee /etc/yum.repos.d/manifest-cyber.repo
-          sudo yum install manifest-cli
+          gpgcheck=0' | tee /etc/yum.repos.d/manifest-cyber.repo
+          yum install -y manifest-cli
 
       - name: Verify installation
         run: manifest-cli --version
@@ -60,10 +59,22 @@ jobs:
   install-with-scoop:
     runs-on: windows-latest
     steps:
+      - name: Install Scoop
+        run: |
+          $env:SCOOP_CONFIRM='true'
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+          irm get.scoop.sh | iex
+          # Add Scoop to the PATH for all subsequent steps
+          $scoopPath = "$env:USERPROFILE\scoop\shims"
+          echo "Adding $scoopPath to PATH"
+          $env:PATH += ";$scoopPath"
+      
       - name: Install Harness (with scoop)
         run: |
+          $env:SCOOP_CONFIRM='true'
           scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
           scoop install manifest-cli
 
       - name: Verify installation
-        run: manifest-cli --version
+        run: |
+          manifest-cli --version
