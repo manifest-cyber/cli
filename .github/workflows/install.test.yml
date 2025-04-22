@@ -1,0 +1,88 @@
+name: Install Harness
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+  push:
+    branches:
+      - "main"
+
+  schedule:
+    - cron: "0 0 * * *" # every day at midnight (utc)
+
+jobs:
+  install-with-brew:
+    runs-on: macos-latest
+    steps:
+      - name: Install Harness (with brew)
+        run: brew install manifest-cyber/tap/manifest-cli
+      
+      - name: Verify installation
+        run: manifest-cli --version
+
+  install-with-curl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Harness (with curl)
+        run: curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s
+
+      # this should be `manifest-cli`! `manifest` is deprecated now.
+      - name: Verify installation
+        run: manifest --version
+          
+  install-with-apt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add Manifest Fury repository
+        run: |
+          echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" | sudo tee /etc/apt/sources.list.d/fury.list
+          sudo apt update -y
+          
+      - name: Install Harness (with apt)
+        run: |
+          sudo apt install -y manifest-cli
+
+      - name: Verify installation
+        run: |
+          manifest-cli --version
+
+  install-with-yum:
+    runs-on: ubuntu-latest
+    container:
+      image: amazonlinux:2
+    steps:
+      - name: Install Harness (with yum)
+        run: |
+          echo '[fury]
+          name=Manifest Cyber
+          baseurl=https://manifest.fury.io/yum/
+          enabled=1
+          gpgcheck=0' | tee /etc/yum.repos.d/manifest-cyber.repo
+          yum install -y manifest-cli
+
+      - name: Verify installation
+        run: manifest-cli --version
+
+  install-with-scoop:
+    runs-on: windows-latest
+    steps:
+      - name: Install Scoop
+        run: |
+          $env:SCOOP_CONFIRM='true'
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+          irm get.scoop.sh | iex
+          $scoopPath = "$env:USERPROFILE\scoop\shims"
+          echo "Adding $scoopPath to PATH"
+          $env:PATH += ";$scoopPath"
+      
+      - name: Install Harness (with scoop)
+        run: |
+          $env:PATH += ";$env:USERPROFILE\scoop\shims"
+          scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
+          scoop install manifest-cli
+
+      - name: Verify installation
+        run: |
+          $env:PATH += ";$env:USERPROFILE\scoop\shims"
+          manifest-cli --version
