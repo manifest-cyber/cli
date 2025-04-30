@@ -1,6 +1,6 @@
 # Manifest CLI
 
-> [!NOTE] 
+> [!NOTE]
 > Starting _January 31st, 2024_ all Manifest CLI releases will be named `manifest-cli` and changed away from the current name: `manifest`.
 > Users will need to change the name anywhere that `manifest` is being called (e.g. pipelines or scripts) to get the latest Manifest CLI functionality.
 
@@ -102,7 +102,9 @@ The `install` command can help you install supported generators that are require
 `--version`: Installs specific version of the generator
 
 ### Generator Installation Example
+
 This command installs the generator globally.
+
 ```bash
 manifest-cli install -g cdxgen
 ```
@@ -178,6 +180,8 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 `--product-label`: One or more labels to add to the product. If the label does not exist, it will be created. Use a single `--product-label` flag with comma delimited values, or multiple `--product-label` flag instances to add multiple labels to a product. You must send a valid `--product-id` in order for the `--product-label` values to be assigned properly.
 
 `--publish`: true/false, whether to send the SBOM to your Manifest app tenant. This requires an API token (see more below). Default: false.
+
+`--enrich`: `none` / `ecosystems` (case insensitive) Overrides your organization settings to force the SBOM to be enriched (`ecosystems`) or to skip enrichment (`none`)
 
 `--generator-preset`: set generator config preset. (recommended, none)
 
