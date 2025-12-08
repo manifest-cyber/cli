@@ -47,7 +47,7 @@ sudo apt install manifest-cli
 
 <details>
 <summary>Homebrew (tap)</summary>
-	
+
 ```bash
 brew install manifest-cyber/tap/manifest-cli
 ```
@@ -300,13 +300,16 @@ Supported generators:
 
 ## API Tokens for Publishing SBOMs
 
-To create a new token, go to your profile in the Manifest App and click on the Create New Token button. Then, fill out the form and click "confirm".
+To create a new token:
+1. In the Manifest App, go to the Settings page and click on the "API Tokens" section under "Account":
+    ![API Tokens](/img0.png)
 
-![Create a new token in the Manifest app](/img1.png)
+2. Fill out the form, add the required scope permissions, and then click "Create":
+    ![Create a new token in the Manifest app](/img1.png)
+    ![Add required scope permissions](/img2.png)
 
-Once you have successfully created your key, copy it and save it in a secure location.
-
-<img width="417" alt="image" src="https://user-images.githubusercontent.com/4471948/224496595-4770bac2-2b2c-4d39-9663-cecdb5e366f1.png">
+3. Once you have successfully created your key, copy it and save it in a secure location:
+    ![Save your token in a secure location](/img3.png)
 
 Remember to protect your API key! Avoid committing it to your source code or printing it as plain text. Instead, use secrets management tools to keep it secure 🧙.
 
