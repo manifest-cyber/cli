@@ -89,6 +89,72 @@ Therefore, you must enable it under Privacy & Security > Security > Open Anyway 
 
 </details>
 
+## Updating to the Latest Version
+
+<details>
+<summary>Install script (Recommended)</summary>
+
+To update to the latest version, simply run the install script again:
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s
+```
+
+The install script will automatically update your existing installation to the latest version.
+
+To update to a specific version:
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
+```
+
+</details>
+
+<details>
+<summary>Aptitude (apt)</summary>
+
+```bash
+sudo apt update
+sudo apt upgrade manifest-cli
+```
+
+</details>
+
+<details>
+<summary>Homebrew (tap)</summary>
+
+```bash
+brew upgrade manifest-cyber/tap/manifest-cli
+```
+</details>
+
+<details>
+<summary>Scoop</summary>
+
+```bash
+scoop update manifest-cli
+```
+
+</details>
+
+<details>
+<summary>Yum</summary>
+
+```bash
+sudo yum update manifest-cli
+```
+
+- if running as admin, you can omit `sudo`.
+</details>
+
+<details>
+<summary>Manual Installation</summary>
+
+Download the latest pre-compiled binaries, `.deb`, `.rpm`, or `.apk`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Replace your existing installation with the new binaries or install them with the appropriate tools.
+
+</details>
+
 ## Installing generators
 
 The `install` command can help you install supported generators that are required for generating SBOM with this tool
