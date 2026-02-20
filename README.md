@@ -38,7 +38,7 @@ curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh 
 <summary>Aptitude (apt)</summary>
 
 ```bash
-echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" > /etc/apt/sources.list.d/fury.list
+echo "deb [trusted=yes] https://repo.fury.io/manifest/ /" > /etc/apt/sources.list.d/fury.list
 sudo apt update
 sudo apt install manifest-cli
 ```
@@ -69,7 +69,7 @@ scoop install manifest-cli
 ```bash
 echo '[fury]
 name=Manifest Cyber
-baseurl=https://manifest.fury.io/yum/
+baseurl=https://repo.fury.io/manifest/
 enabled=1
 gpgcheck=0' | sudo tee /etc/yum.repos.d/manifest-cyber.repo
 sudo yum install manifest-cli
