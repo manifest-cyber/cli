@@ -38,7 +38,7 @@ curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh 
 <summary>Aptitude (apt)</summary>
 
 ```bash
-echo "deb [trusted=yes] https://manifest.fury.io/apt/ /" > /etc/apt/sources.list.d/fury.list
+echo "deb [trusted=yes] https://repo.fury.io/manifest/ /" > /etc/apt/sources.list.d/fury.list
 sudo apt update
 sudo apt install manifest-cli
 ```
@@ -69,7 +69,7 @@ scoop install manifest-cli
 ```bash
 echo '[fury]
 name=Manifest Cyber
-baseurl=https://manifest.fury.io/yum/
+baseurl=https://repo.fury.io/manifest/
 enabled=1
 gpgcheck=0' | sudo tee /etc/yum.repos.d/manifest-cyber.repo
 sudo yum install manifest-cli
@@ -163,6 +163,8 @@ The `install` command can help you install supported generators that are require
 
 ### Arguments
 
+For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
+
 ` -d`, `--destination`: Installation destination string (default "/usr/local/bin")
 `-g`, `--generator`: Name of generator to install. Supported options: [syft|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
 `--version`: Installs specific version of the generator
@@ -218,6 +220,8 @@ To add a folder to the path in Windows, you can follow these steps:
 Remember to replace `/path/to/folder` with the actual path of the folder you want to add.
 
 ### Arguments
+
+For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 
 `-g`, `--generator`: the generator to use (syft, trivy, cdxgen, sigstore-bom).
 
@@ -300,6 +304,8 @@ manifest-cli sbom --generator=trivy ./route-to-file ./go.mod ./go.sum alpine:lat
 Use the `merge` command to merge two or more SBOMs of the same format.
 
 ### Arguments
+
+For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 
 The same arguments available for the `sbom` command are available for `merge`.
 
