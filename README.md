@@ -317,6 +317,77 @@ The same arguments available for the `sbom` command are available for `merge`.
 manifest-cli merge --input-format=cyclonedx --name=my-app scm-sbom.json image-scm.json
 ```
 
+## Deactivating Older Versions
+
+When you publish a new version of an asset, the previous versions stay active by default. Add `--deactivate-older` (`-d`) to mark prior versions of the same asset inactive as part of the same publish, so your inventory reflects only the version you just shipped:
+
+```bash
+export MANIFEST_API_KEY=your-api-token
+manifest-cli publish sbom.json --deactivate-older
+```
+
+By default this deactivates *every* older version of the asset. To narrow it to older versions carrying specific labels, add `--deactivate-label` (repeatable). Each value is matched against the asset's labels, and only matching older versions are deactivated. `--deactivate-label` requires `--deactivate-older`:
+
+```bash
+# Only deactivate older versions labeled "production" or "java"
+manifest-cli publish sbom.json \
+  --deactivate-older \
+  --deactivate-label production \
+  --deactivate-label java
+```
+
+These flags are available on the `publish`, `sbom --publish`, and `merge --publish` commands.
+
+## Replacing an Asset in a Product
+
+When an asset belongs to a product's inventory, `--replace-in-product` swaps the asset's prior version out of that product and puts the version you are publishing in its place, after the upload and vulnerability scan complete. This is useful when a product should track exactly one version of an asset. It requires `--product-id` to identify which product's inventory to update:
+
+```bash
+export MANIFEST_API_KEY=your-api-token
+manifest-cli publish sbom.json \
+  --product-id YOUR_PRODUCT_ID \
+  --replace-in-product
+```
+
+## Publishing Snapshots
+
+A snapshot tells the Manifest platform that a group of SBOMs represents the complete state of an environment or release at a single point in time. When you publish in snapshot mode, the platform runs a deactivation sweep after the upload completes: assets that share the snapshot label but were last seen *before* the snapshot timestamp are marked inactive. This keeps your inventory in sync with what is actually deployed, without you having to deactivate stale assets by hand.
+
+Common uses are reconciling a live environment (e.g. `production`, `staging`) on each deploy, or marking everything from a prior release tag inactive when a new release ships.
+
+Snapshot mode is enabled by passing **both** of these flags together:
+
+- `--snapshot-label <label>`: identifies the snapshot the SBOM belongs to, such as an environment name or release tag (e.g. `production`, `v1.4.0`).
+- `--snapshot-timestamp <timestamp>`: an RFC3339 timestamp with an explicit UTC offset (e.g. `2024-01-15T10:00:00Z`). This is the moment the snapshot represents and the boundary the deactivation sweep uses.
+
+The CLI validates the timestamp before making any API call. It must be RFC3339 with an explicit UTC offset (a trailing `Z` for UTC, or an offset like `-05:00`), must not be in the future, and must not be more than 7 days in the past. Passing one flag without the other fails validation; passing neither publishes the SBOM normally with no sweep.
+
+These flags are available on the `publish`, `sbom --publish`, and `merge --publish` commands.
+
+```bash
+# Publish an existing SBOM as part of the production snapshot
+manifest-cli publish sbom.json \
+  --snapshot-label production \
+  --snapshot-timestamp 2024-01-15T10:00:00Z
+
+# Generate and publish in one step, tagged to a release snapshot
+manifest-cli sbom ./ -f sbom.json --publish \
+  --snapshot-label v1.4.0 \
+  --snapshot-timestamp 2024-01-15T10:00:00Z
+```
+
+In CI you will usually generate the timestamp at publish time:
+
+```bash
+export MANIFEST_API_KEY=your-api-token
+SNAPSHOT_TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+manifest-cli publish sbom.json \
+  --snapshot-label production \
+  --snapshot-timestamp "$SNAPSHOT_TS"
+```
+
+> **Note:** The deactivation sweep only runs when snapshot mode is enabled. Snapshot mode and `--deactivate-older` serve different purposes: `--deactivate-older` deactivates prior versions of the same asset, while snapshots reconcile an entire environment or release against a point in time.
+
 ## (Beta) Generating & Publishing SBOM Attestation
 
 ## Keyless Signing
