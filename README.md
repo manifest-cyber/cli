@@ -317,6 +317,38 @@ The same arguments available for the `sbom` command are available for `merge`.
 manifest-cli merge --input-format=cyclonedx --name=my-app scm-sbom.json image-scm.json
 ```
 
+## Deactivating Older Versions
+
+When you publish a new version of an asset, the previous versions stay active by default. Add `--deactivate-older` (`-d`) to mark prior versions of the same asset inactive as part of the same publish, so your inventory reflects only the version you just shipped:
+
+```bash
+export MANIFEST_API_KEY=your-api-token
+manifest-cli publish sbom.json --deactivate-older
+```
+
+By default this deactivates *every* older version of the asset. To narrow it to older versions carrying specific labels, add `--deactivate-label` (repeatable). Each value is matched against the asset's labels, and only matching older versions are deactivated. `--deactivate-label` requires `--deactivate-older`:
+
+```bash
+# Only deactivate older versions labeled "production" or "java"
+manifest-cli publish sbom.json \
+  --deactivate-older \
+  --deactivate-label production \
+  --deactivate-label java
+```
+
+These flags are available on the `publish`, `sbom --publish`, and `merge --publish` commands.
+
+## Replacing an Asset in a Product
+
+When an asset belongs to a product's inventory, `--replace-in-product` swaps the asset's prior version out of that product and puts the version you are publishing in its place, after the upload and vulnerability scan complete. This is useful when a product should track exactly one version of an asset. It requires `--product-id` to identify which product's inventory to update:
+
+```bash
+export MANIFEST_API_KEY=your-api-token
+manifest-cli publish sbom.json \
+  --product-id YOUR_PRODUCT_ID \
+  --replace-in-product
+```
+
 ## Publishing Snapshots
 
 A snapshot tells the Manifest platform that a group of SBOMs represents the complete state of an environment or release at a single point in time. When you publish in snapshot mode, the platform runs a deactivation sweep after the upload completes: assets that share the snapshot label but were last seen *before* the snapshot timestamp are marked inactive. This keeps your inventory in sync with what is actually deployed, without you having to deactivate stale assets by hand.
