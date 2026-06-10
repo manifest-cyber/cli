@@ -149,6 +149,15 @@ Publish SBOM(s) to the Manifest platform.
 |------|-------|------|---------|-------------|
 | `--deactivate-older` | `-d` | bool | `false` | Mark previous versions of this asset as inactive when publishing this SBOM |
 
+### Snapshots
+
+| Flag | Short | Type | Default | Description |
+|------|-------|------|---------|-------------|
+| `--snapshot-label` | - | string | - | Label identifying the snapshot this SBOM belongs to, e.g. an environment name or release tag (required with `--snapshot-timestamp`) |
+| `--snapshot-timestamp` | - | string | - | RFC3339 timestamp the snapshot represents, with an explicit UTC offset, e.g. `2024-01-15T10:00:00Z` (required with `--snapshot-label`) |
+
+> **Note:** Pass both flags together to enable snapshot mode. The timestamp must be RFC3339 with a UTC offset, must not be in the future, and must not be more than 7 days in the past. See [Publishing Snapshots](README.md#publishing-snapshots) in the README for what snapshot mode does.
+
 ### VDR (Vulnerability Disclosure Report)
 
 | Flag | Short | Type | Default | Description |
