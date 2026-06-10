@@ -128,6 +128,8 @@ Publish SBOM(s) to the Manifest platform.
 | `--relationship` | - | string | `first` | Set the relationship of the SBOM(s) |
 | `--hidden` | - | bool | `false` | Hide assets and components |
 | `--ignore-validation` | `-s` | bool | `false` | Ignore validation of the SBOM(s) |
+| `--name` | `-n` | string | - | Override the asset/SBOM document name written to the SBOM root component (overrides the value already in the SBOM) |
+| `--version` | - | string | - | Override the asset/SBOM document version written to the SBOM root component (overrides the value already in the SBOM) |
 
 ### Product & Labeling
 
@@ -148,6 +150,8 @@ Publish SBOM(s) to the Manifest platform.
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
 | `--deactivate-older` | `-d` | bool | `false` | Mark previous versions of this asset as inactive when publishing this SBOM |
+| `--deactivate-label` | - | []string | - | Restrict `--deactivate-older` to assets carrying any of these labels (repeatable; requires `--deactivate-older`) |
+| `--replace-in-product` | - | bool | `false` | After upload, replace the asset's prior version in the product inventory (requires `--product-id`) |
 
 ### Snapshots
 
