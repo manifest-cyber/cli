@@ -257,7 +257,7 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 
 `--generator-config`: set path to generator config file (if applicable)
 
-`v`, `--version`: Version of the generated SBOM. Overrides any existing version info.
+`--version`: Version of the generated SBOM. Overrides any existing version info.
 
 `--`: to pass through additional arguments to specific generators, use the `--` separator at the end of the command, followed by any additional arguments.
 
