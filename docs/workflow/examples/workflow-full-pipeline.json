@@ -1,0 +1,47 @@
+{
+  "action": [
+    {
+      "command": "generate",
+      "generator": "syft",
+      "stop_on_error": true,
+      "flags": {
+        "input": "./my-project",
+        "output": "cyclonedx-json",
+        "file": "/tmp/sbom-syft.json"
+      }
+    },
+    {
+      "command": "generate",
+      "generator": "csbom",
+      "stop_on_error": true,
+      "flags": {
+        "input": "./my-project",
+        "output": "cyclonedx-json",
+        "file": "/tmp/sbom-csbom.json"
+      }
+    },
+    {
+      "command": "merge",
+      "stop_on_error": true,
+      "flags": {
+        "input_files": ["/tmp/sbom-syft.json", "/tmp/sbom-csbom.json"],
+        "file": "/tmp/sbom-merged.json",
+        "output": "cyclonedx-1.6"
+      }
+    },
+    {
+      "command": "publish",
+      "stop_on_error": true,
+      "flags": {
+        "input_files": ["/tmp/sbom-merged.json"],
+        "name": "my-project",
+        "version": "v1.0.0",
+        "product-id": "00000000-0000-0000-0000-000000000000",
+        "active": "true",
+        "deactivate-older": true,
+        "asset-label": ["team:platform"],
+        "label": ["release:stable"]
+      }
+    }
+  ]
+}
