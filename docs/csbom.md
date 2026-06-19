@@ -4,6 +4,8 @@
 source level to surface what was actually compiled into a binary — components that standard
 package-scanning tools cannot see.
 
+> Releases: [github.com/manifest-cyber/csbom-cli](https://github.com/manifest-cyber/csbom-cli)
+
 ## What csbom analyses
 
 - **Build systems** — Makefile, CMake, Conan, vcpkg
