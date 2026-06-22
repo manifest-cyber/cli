@@ -10,6 +10,7 @@ This document provides a comprehensive reference of all command-line flags and a
 - [Merge Command](#merge-command)
 - [Convert Command](#convert-command)
 - [Install Command](#install-command)
+- [Workflow Command](#workflow-command)
 - [CRAT Command (Assess Reachability)](#crat-command-assess-reachability)
 
 Notes for all commands:
@@ -260,6 +261,18 @@ Install SBOM generators and related tools.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `--shell` | string | `bash` | Shell to use for installation |
+
+---
+
+## Workflow Command
+
+Execute a sequence of manifest-cli commands defined in a JSON file or via a built-in preset.
+
+| Flag | Short | Type | Default | Description |
+| ---- | ----- | ---- | ------- | ----------- |
+| `--workflow-file` | `-w` | string | - | Path to the workflow JSON file |
+| `--preset` | `-p` | string | - | Built-in workflow preset to run (valid: `cpp`) |
+| `--file` | `-f` | string | - | Merged SBOM output path (required with `--preset`) |
 
 ---
 

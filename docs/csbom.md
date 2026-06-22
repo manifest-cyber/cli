@@ -6,7 +6,7 @@ package-scanning tools cannot see.
 
 > Releases: [github.com/manifest-cyber/csbom-cli](https://github.com/manifest-cyber/csbom-cli)
 
-## What csbom analyses
+## What csbom analyzes
 
 - **Build systems** — Makefile, CMake, Conan, vcpkg
 - **Source files** — vendored libraries and in-tree dependencies
@@ -40,7 +40,7 @@ CycloneDX JSON SBOM to `sbom.json`.
 | Flag | Description |
 | --- | --- |
 | `-f`, `--file` | Output SBOM file path |
-| `-o`, `--output` | Output format (`cyclonedx-json`, `spdx-json`). Default: `cyclonedx-json` |
+| `-o`, `--output` | Output format: `cyclonedx-json` (only supported format) |
 | `--name` | Asset name to embed in the SBOM |
 | `--version` | Asset version to embed in the SBOM |
 | `--publish` | Publish the SBOM to the Manifest API after generation |
