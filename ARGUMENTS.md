@@ -10,6 +10,7 @@ This document provides a comprehensive reference of all command-line flags and a
 - [Merge Command](#merge-command)
 - [Convert Command](#convert-command)
 - [Install Command](#install-command)
+- [Workflow Command](#workflow-command)
 - [CRAT Command (Assess Reachability)](#crat-command-assess-reachability)
 
 Notes for all commands:
@@ -44,7 +45,7 @@ Generate SBOMs from local filesystems or containers.
 | `--name` | `-n` | string | - | Name of generated SBOM document |
 | `--version` | - | string | - | Version of generated SBOM document |
 | `--file` | `-f` | string | - | Name of generated file (no extension) |
-| `--generator` | `-g` | string | `syft` | Name of generator to use: `syft`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom` |
+| `--generator` | `-g` | string | `syft` | Name of generator to use: `syft`, `csbom`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom` |
 | `--output` | `-o` | string | `cyclonedx-json` | SBOM output format: `spdx-json`, `cyclonedx-json` |
 | `--generator-preset` | - | string | `recommended` | Set generator config preset: `recommended`, `none` |
 | `--generator-config` | - | string | - | Path to generator config file (if applicable) |
@@ -251,7 +252,7 @@ Install SBOM generators and related tools.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--generator` | `-g` | string | `syft` | Name of generator to install: `syft`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom`, `bomdoctor` |
+| `--generator` | `-g` | string | `syft` | Name of generator to install: `syft`, `csbom`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom`, `bomdoctor` |
 | `--version` | - | string | Latest | Install specific version |
 | `--destination` | `-d` | string | `/usr/local/bin` | Installation destination path |
 
@@ -260,6 +261,18 @@ Install SBOM generators and related tools.
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
 | `--shell` | string | `bash` | Shell to use for installation |
+
+---
+
+## Workflow Command
+
+Execute a sequence of manifest-cli commands defined in a JSON file or via a built-in preset.
+
+| Flag | Short | Type | Default | Description |
+| ---- | ----- | ---- | ------- | ----------- |
+| `--workflow-file` | `-w` | string | - | Path to the workflow JSON file |
+| `--preset` | `-p` | string | - | Built-in workflow preset to run (valid: `cpp`) |
+| `--file` | `-f` | string | - | Merged SBOM output path (required with `--preset`) |
 
 ---
 
@@ -297,7 +310,7 @@ Run CRAT reachability assessments or execute CRAT subcommands.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--generator` | `-g` | string | `syft` | Name of generator to use: `syft`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom` |
+| `--generator` | `-g` | string | `syft` | Name of generator to use: `syft`, `csbom`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom` |
 | `--enrich` | - | string | - | Enrichment to apply to the SBOM: `ECOSYSTEMS`, `PARLAY` |
 | `--openai-api-key` | - | string | `$OPENAI_API_KEY` | OpenAI API key for BOM Doctor LLM-based ecosystem detection |
 | `--install-dependencies` | - | bool | `false` | Install dependencies required to run the command |

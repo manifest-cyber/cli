@@ -166,7 +166,7 @@ The `install` command can help you install supported generators that are require
 For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 
 ` -d`, `--destination`: Installation destination string (default "/usr/local/bin")
-`-g`, `--generator`: Name of generator to install. Supported options: [syft|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
+`-g`, `--generator`: Name of generator to install. Supported options: [syft|csbom|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
 `--version`: Installs specific version of the generator
 
 ### Generator Installation Example
@@ -223,7 +223,7 @@ Remember to replace `/path/to/folder` with the actual path of the folder you wan
 
 For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 
-`-g`, `--generator`: the generator to use (syft, trivy, cdxgen, sigstore-bom).
+`-g`, `--generator`: the generator to use (syft, csbom, trivy, cdxgen, sigstore-bom).
 
 `-p`, `--paths`: **[DEPRECATED: use positional arguments instead]** the paths to local repositories, or name:version of a container, to scan.
 
@@ -299,6 +299,22 @@ manifest-cli sbom --product-id=MY_PRODUCT_ID --product-label=production --produc
 manifest-cli sbom --generator=trivy ./route-to-file ./go.mod ./go.sum alpine:latest
 ```
 
+## Generating a C/C++ SBOM with csbom
+
+`csbom` is a generator purpose-built for C and C++ projects. It works at the build-system and
+source level to surface components that were compiled into a binary — including vendored
+libraries, statically linked dependencies, and third-party SDKs that leave no trace in a
+package manager.
+
+Install `csbom` and run it against your project:
+
+```bash
+manifest-cli install -g csbom
+manifest-cli generate --generator csbom -f sbom.json ./my-cpp-project
+```
+
+For full details, flag reference, and workflow integration, see [docs/csbom.md](docs/csbom.md).
+
 ## Merge
 
 Use the `merge` command to merge two or more SBOMs of the same format.
@@ -316,6 +332,29 @@ The same arguments available for the `sbom` command are available for `merge`.
 ```bash
 manifest-cli merge --input-format=cyclonedx --name=my-app scm-sbom.json image-scm.json
 ```
+
+## Workflow
+
+The `workflow` command executes a sequence of `manifest-cli` commands defined in a JSON file or
+via a built-in preset. Each step maps to an existing command (`generate`, `merge`, `publish`,
+`install`) using the same flags as the CLI — no new syntax to learn.
+
+Use the built-in `cpp` preset for C/C++ projects with no configuration needed. It runs `syft`
+and `csbom` against the same input path, then merges both results into a single CycloneDX 1.6
+SBOM — giving you broad package detection and deep build-system analysis in one command:
+
+```bash
+manifest-cli workflow --preset cpp -f merged.json ./my-project
+```
+
+Or bring your own workflow file for full control over every step:
+
+```bash
+manifest-cli workflow --workflow-file workflow.json ./my-project
+```
+
+For full details, all flags, and ready-to-use example files, see
+[docs/workflow/WORKFLOW_FEATURE.md](docs/workflow/WORKFLOW_FEATURE.md).
 
 ## Deactivating Older Versions
 
@@ -435,6 +474,7 @@ Generators must be installed in order for the cli to use them. Syft is the defau
 Supported generators:
 
 - [syft](https://github.com/anchore/syft)
+- [csbom](https://github.com/manifest-cyber/csbom-cli) — C/C++ SBOM generator with static analysis across 19+ build system file types (CMake, Conan v1+v2, vcpkg, Meson, pkg-config, BitBake/Yocto, Makefile, VS linker maps, and more); enriches components with CPEs, PURLs, and licenses; outputs CycloneDX 1.6 or native csbom JSON
 - [trivy](https://github.com/aquasecurity/trivy)
 - [cdxgen](https://github.com/CycloneDX/cdxgen)
 - [docker-sbom](https://docs.docker.com/engine/sbom/)

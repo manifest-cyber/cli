@@ -1,0 +1,47 @@
+{
+  "action": [
+    {
+      "command": "generate",
+      "generator": "syft",
+      "stop_on_error": true,
+      "flags": {
+        "input": "/opt/vendor-sdk-a",
+        "output": "cyclonedx-json",
+        "file": "/tmp/sbom-vendor-a.json"
+      }
+    },
+    {
+      "command": "generate",
+      "generator": "syft",
+      "stop_on_error": true,
+      "flags": {
+        "input": "/opt/vendor-sdk-b",
+        "output": "cyclonedx-json",
+        "file": "/tmp/sbom-vendor-b.json"
+      }
+    },
+    {
+      "command": "generate",
+      "generator": "csbom",
+      "stop_on_error": true,
+      "flags": {
+        "input": "./my-project",
+        "output": "cyclonedx-json",
+        "file": "/tmp/sbom-project.json"
+      }
+    },
+    {
+      "command": "merge",
+      "stop_on_error": true,
+      "flags": {
+        "input_files": [
+          "/tmp/sbom-vendor-a.json",
+          "/tmp/sbom-vendor-b.json",
+          "/tmp/sbom-project.json"
+        ],
+        "file": "merged-full.json",
+        "output": "cyclonedx-1.6"
+      }
+    }
+  ]
+}
