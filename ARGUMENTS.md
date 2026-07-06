@@ -49,6 +49,7 @@ Generate SBOMs from local filesystems or containers.
 | `--output` | `-o` | string | `cyclonedx-json` | SBOM output format: `spdx-json`, `cyclonedx-json` |
 | `--generator-preset` | - | string | `recommended` | Set generator config preset: `recommended`, `none` |
 | `--generator-config` | - | string | - | Path to generator config file (if applicable) |
+| `--supplier` | - | string | - | Supplier (organization) name to set on the root SBOM component and BOM metadata |
 | `--hierarchical` | - | bool | `true` | Perform a hierarchical merge |
 | `--use-tmp-sbom` | - | bool | `true` | Write temporary SBOMs to OS-specific temporary folder and delete after merge |
 | `--keep-clone` | - | bool | `false` | Keep the local git clone once generation is completed |
@@ -212,6 +213,7 @@ Merge two or more SBOMs into a single SBOM.
 | `--name` | - | string | - | Name of merged SBOM document |
 | `--version` | - | string | - | Version of merged SBOM document |
 | `--group` | - | string | - | Group of merged SBOM document |
+| `--supplier` | - | string | - | Supplier (organization) name to set on the root SBOM component and BOM metadata. For SPDX output this sets the package supplier, falling back to `--group` when unset |
 
 ### Signing & Publishing
 
@@ -346,6 +348,17 @@ manifest-cli publish sbom.json \
 manifest-cli generate ./path/to/code \
   --detect-ai \
   --file my-sbom \
+  --output cyclonedx-json
+```
+
+### Generate with a Supplier
+
+```bash
+# Set the supplier on the root component and BOM metadata
+manifest-cli generate ./path/to/code \
+  --name api \
+  --version 1.3.0 \
+  --supplier "Manifest Cyber" \
   --output cyclonedx-json
 ```
 
