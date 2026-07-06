@@ -257,6 +257,8 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 
 `--generator-config`: set path to generator config file (if applicable)
 
+`--supplier`: Supplier (organization) name to set on the root SBOM component (`metadata.component.supplier`) and the BOM metadata (`metadata.supplier`). For SPDX output this sets the package supplier, falling back to `--group` when unset.
+
 `--version`: Version of the generated SBOM. Overrides any existing version info.
 
 `--`: to pass through additional arguments to specific generators, use the `--` separator at the end of the command, followed by any additional arguments.
