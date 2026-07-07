@@ -429,6 +429,26 @@ manifest-cli publish sbom.json \
 
 > **Note:** The deactivation sweep only runs when snapshot mode is enabled. Snapshot mode and `--deactivate-older` serve different purposes: `--deactivate-older` deactivates prior versions of the same asset, while snapshots reconcile an entire environment or release against a point in time.
 
+### Reconciling a Product's Inventory to a Snapshot
+
+While snapshot mode reconciles your organization's asset inventory, `--update-product` reconciles a specific **product's inventory** to the same snapshot. After the upload completes, it removes assets in the product that carry the snapshot label and predate the snapshot timestamp, then adds the asset you are publishing. This keeps a product's inventory in sync with exactly what a given environment or release contains.
+
+`--update-product` requires `--product-id`, `--snapshot-label`, and `--snapshot-timestamp`, and is mutually exclusive with `--replace-in-product` (use `--replace-in-product` for a single per-asset version swap, and `--update-product` for a full snapshot reconciliation).
+
+The reconcile is idempotent across a batch: when you publish several SBOMs to the same product and snapshot, only the first call removes stale assets, and each subsequent call just adds its asset. This makes it safe to loop over every service in a deploy:
+
+```bash
+export MANIFEST_API_KEY=your-api-token
+SNAPSHOT_TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+for sbom in service-a.json service-b.json service-c.json; do
+  manifest-cli publish "$sbom" \
+    --product-id YOUR_PRODUCT_ID \
+    --update-product \
+    --snapshot-label production \
+    --snapshot-timestamp "$SNAPSHOT_TS"
+done
+```
+
 ## (Beta) Generating & Publishing SBOM Attestation
 
 ## Keyless Signing
