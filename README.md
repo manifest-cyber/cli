@@ -241,7 +241,7 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 
 `--label`: **[DEPRECATED] use --asset-label instead.** One or more labels to add to the SBOM. If the label does not exist, it will be created then applied to the SBOM. Use a single --label flag with comma delimited values, or multiple --label flag instances.
 
-`--product-id`: Assign an SBOM to a product by providing a product ID. You may create products through the Manifest UI.
+`--product-id`: Assign an SBOM to a product by providing a product ID. You may create products through the Manifest UI. To find a product's ID, open the product in the Manifest app and copy the identifier from the page URL: it is the segment between `/product/` and `/overview` (for example, in `https://app.manifestcyber.com/product/64b8f0a2e1d3c5a7b9f2e4d6/overview` the product ID is `64b8f0a2e1d3c5a7b9f2e4d6`). Only takes effect together with `--publish`, and requires a token carrying the product permissions listed under [API Tokens for Publishing SBOMs](#api-tokens-for-publishing-sboms).
 
 `--active={true|false}`: Whether this SBOM should be marked as Active when uploading, if not present the default of your organization's setting will be used (which is typically `true`).
 
@@ -517,6 +517,20 @@ To create a new token:
     ![Save your token in a secure location](/img3.png)
 
 Remember to protect your API key! Avoid committing it to your source code or printing it as plain text. Instead, use secrets management tools to keep it secure 🧙.
+
+### Scope permissions by flag
+
+The scopes you add in step 2 must cover the flags you intend to use. Grant the permission(s) below for each operation:
+
+| Flag / operation | Required scope permission(s) |
+| --- | --- |
+| `--publish` (upload an SBOM) | Generate and upload SBOMs and VEX documents |
+| `--product-id` (assign an SBOM to a product) | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
+| `--replace-in-product` | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
+| `--update-product` (reconcile a product to a snapshot) | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
+| `--download-vdr` | View all SBOMs and VEX documents **and** View asset VDR reports |
+
+> **Note:** The product operations (`--product-id`, `--replace-in-product`, `--update-product`) require a user API token created from the API Tokens page on your profile (the flow shown above). These operations also wait for the upload's vulnerability scan to finish before attaching the asset, which is why they additionally need "View all SBOMs and VEX documents".
 
 ### Usage
 
