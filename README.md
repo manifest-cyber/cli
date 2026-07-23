@@ -290,7 +290,7 @@ manifest-cli sbom --asset-label=production --asset-label=java --generator=cdxgen
 #### SBOM Generation with product assignment and labels
 
 ```bash
-manifest-cli sbom --product-id=MY_PRODUCT_ID --product-label=production --product-label=golang --name=my-sbom --version=v1.0.0 --output=spdx-json ./path/to/repo
+manifest-cli sbom --product-id=MY_PRODUCT_ID --product-label=production --product-label=golang --name=my-sbom --version=v1.0.0 --output=spdx-json --publish ./path/to/repo
 ```
 
 #### Generation with specific file and container
