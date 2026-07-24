@@ -241,7 +241,7 @@ Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provide
 
 `--label`: **[DEPRECATED] use --asset-label instead.** One or more labels to add to the SBOM. If the label does not exist, it will be created then applied to the SBOM. Use a single --label flag with comma delimited values, or multiple --label flag instances.
 
-`--product-id`: Assign an SBOM to a product by providing a product ID. You may create products through the Manifest UI.
+`--product-id`: Assign an SBOM to a product by providing a product ID. You may create products through the Manifest UI. To find a product's ID, open the product in the Manifest app and copy the identifier from the page URL: it is the segment between `/product/` and `/overview` (for example, in `https://app.manifestcyber.com/product/64b8f0a2e1d3c5a7b9f2e4d6/overview` the product ID is `64b8f0a2e1d3c5a7b9f2e4d6`). Only takes effect together with `--publish`, and requires a token carrying the product permissions listed under [API Tokens for Publishing SBOMs](#api-tokens-for-publishing-sboms).
 
 `--active={true|false}`: Whether this SBOM should be marked as Active when uploading, if not present the default of your organization's setting will be used (which is typically `true`).
 
@@ -290,7 +290,7 @@ manifest-cli sbom --asset-label=production --asset-label=java --generator=cdxgen
 #### SBOM Generation with product assignment and labels
 
 ```bash
-manifest-cli sbom --product-id=MY_PRODUCT_ID --product-label=production --product-label=golang --name=my-sbom --version=v1.0.0 --output=spdx-json ./path/to/repo
+manifest-cli sbom --product-id=MY_PRODUCT_ID --product-label=production --product-label=golang --name=my-sbom --version=v1.0.0 --output=spdx-json --publish ./path/to/repo
 ```
 
 #### Generation with specific file and container
@@ -517,6 +517,20 @@ To create a new token:
     ![Save your token in a secure location](/img3.png)
 
 Remember to protect your API key! Avoid committing it to your source code or printing it as plain text. Instead, use secrets management tools to keep it secure 🧙.
+
+### Scope permissions by flag
+
+The scopes you enable in step 2 must cover the flags you intend to use. Enable the scope(s) below for each operation (names match the checkboxes on the token creation screen):
+
+| Flag / operation | Scope(s) to enable |
+| --- | --- |
+| `--publish` (upload an SBOM) | Manage SBOMs and VEX |
+| `--product-id` (assign an SBOM to a product) | Manage products, Manage assets, and View all pages and data |
+| `--replace-in-product` | Manage products, Manage assets, and View all pages and data |
+| `--update-product` (reconcile a product to a snapshot) | Manage products, Manage assets, and View all pages and data |
+| `--download-vdr` | View all pages and data |
+
+> **Note:** Use a user API token created from the API Tokens page on your profile (the flow shown above). The product operations (`--product-id`, `--replace-in-product`, `--update-product`) wait for the upload's vulnerability scan to finish before attaching the asset, so they need **View all pages and data** (the read scope) in addition to **Manage products** and **Manage assets**. **View all pages and data** is also what covers `--download-vdr`.
 
 ### Usage
 
