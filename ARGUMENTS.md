@@ -191,17 +191,17 @@ Publish SBOM(s) to the Manifest platform.
 
 ### Token Permissions
 
-The API token passed via `--api-key` (or `MANIFEST_API_KEY`) must carry the scope permission(s) for the flags you use. Grant these when creating the token in the Manifest app.
+The API token passed via `--api-key` (or `MANIFEST_API_KEY`) must have the scope(s) for the flags you use. Enable these when creating the token in the Manifest app (names match the checkboxes on the token creation screen).
 
-| Flag / operation | Required scope permission(s) |
+| Flag / operation | Scope(s) to enable |
 |------|-------------|
-| `--publish` | Generate and upload SBOMs and VEX documents |
-| `--product-id` | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
-| `--replace-in-product` | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
-| `--update-product` | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
-| `--download-vdr` | View all SBOMs and VEX documents **and** View asset VDR reports |
+| `--publish` | Manage SBOMs and VEX |
+| `--product-id` | Manage products, Manage assets, and View all pages and data |
+| `--replace-in-product` | Manage products, Manage assets, and View all pages and data |
+| `--update-product` | Manage products, Manage assets, and View all pages and data |
+| `--download-vdr` | View all pages and data |
 
-> **Note:** The product operations (`--product-id`, `--replace-in-product`, `--update-product`) require a user API token created from the API Tokens page on your profile. They also wait for the upload's vulnerability scan to finish before attaching the asset, which is why they additionally need "View all SBOMs and VEX documents".
+> **Note:** Use a user API token created from the API Tokens page on your profile. The product operations (`--product-id`, `--replace-in-product`, `--update-product`) wait for the upload's vulnerability scan to finish before attaching the asset, so they need **View all pages and data** (the read scope) in addition to **Manage products** and **Manage assets**. **View all pages and data** is also what covers `--download-vdr`.
 
 ---
 
@@ -323,7 +323,7 @@ Run CRAT reachability assessments or execute CRAT subcommands.
 | `--api-key` | `-k` | string | `$MANIFEST_API_KEY` | API key from Manifest App (overrides `MANIFEST_API_KEY` env variable) |
 | `--api-uri` | - | string | `https://api.manifestcyber.com/v1` | URI for the Manifest API (self-hosted, etc environments will want to change this) |
 
-> **Token permissions:** `crat` generates and publishes an SBOM, waits for its vulnerability scan, and downloads the VDR before analyzing reachability, so its `--api-key` (a user API token) needs all three of: Generate and upload SBOMs and VEX documents, View all SBOMs and VEX documents, and View asset VDR reports. The `--llm-api-key` is for the LLM provider (OpenAI/Anthropic) and is unrelated to your Manifest token.
+> **Token permissions:** `crat` generates and publishes an SBOM, waits for its vulnerability scan, and downloads the VDR before analyzing reachability, so its `--api-key` (a user API token) needs **Manage SBOMs and VEX** and **View all pages and data** enabled. The `--llm-api-key` is for the LLM provider (OpenAI/Anthropic) and is unrelated to your Manifest token.
 
 ### Generator Options
 

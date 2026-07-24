@@ -520,17 +520,17 @@ Remember to protect your API key! Avoid committing it to your source code or pri
 
 ### Scope permissions by flag
 
-The scopes you add in step 2 must cover the flags you intend to use. Grant the permission(s) below for each operation:
+The scopes you enable in step 2 must cover the flags you intend to use. Enable the scope(s) below for each operation (names match the checkboxes on the token creation screen):
 
-| Flag / operation | Required scope permission(s) |
+| Flag / operation | Scope(s) to enable |
 | --- | --- |
-| `--publish` (upload an SBOM) | Generate and upload SBOMs and VEX documents |
-| `--product-id` (assign an SBOM to a product) | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
-| `--replace-in-product` | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
-| `--update-product` (reconcile a product to a snapshot) | Edit product details, Update asset's active/inactive status, **and** View all SBOMs and VEX documents |
-| `--download-vdr` | View all SBOMs and VEX documents **and** View asset VDR reports |
+| `--publish` (upload an SBOM) | Manage SBOMs and VEX |
+| `--product-id` (assign an SBOM to a product) | Manage products, Manage assets, and View all pages and data |
+| `--replace-in-product` | Manage products, Manage assets, and View all pages and data |
+| `--update-product` (reconcile a product to a snapshot) | Manage products, Manage assets, and View all pages and data |
+| `--download-vdr` | View all pages and data |
 
-> **Note:** The product operations (`--product-id`, `--replace-in-product`, `--update-product`) require a user API token created from the API Tokens page on your profile (the flow shown above). These operations also wait for the upload's vulnerability scan to finish before attaching the asset, which is why they additionally need "View all SBOMs and VEX documents".
+> **Note:** Use a user API token created from the API Tokens page on your profile (the flow shown above). The product operations (`--product-id`, `--replace-in-product`, `--update-product`) wait for the upload's vulnerability scan to finish before attaching the asset, so they need **View all pages and data** (the read scope) in addition to **Manage products** and **Manage assets**. **View all pages and data** is also what covers `--download-vdr`.
 
 ### Usage
 
