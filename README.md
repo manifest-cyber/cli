@@ -167,7 +167,7 @@ The `install` command can help you install supported generators that are require
 
 For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 
-` -d`, `--destination`: Installation destination string (default "/usr/local/bin")
+` -d`, `--destination`: Installation destination string (default "/usr/local/bin"; on Windows with `--native`, defaults to the directory containing `manifest-cli.exe` instead)
 `-g`, `--generator`: Name of generator to install. Supported options: [syft|csbom|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
 `--version`: Installs specific version of the generator
 `--native`: Install using a built-in Go downloader instead of a shell script. Available on all platforms; removes the WSL/Bash requirement on Windows.

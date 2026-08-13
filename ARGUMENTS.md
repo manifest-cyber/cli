@@ -272,8 +272,8 @@ Install SBOM generators and related tools.
 |------|-------|------|---------|-------------|
 | `--generator` | `-g` | string | `syft` | Name of generator to install: `syft`, `csbom`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom`, `bomdoctor` |
 | `--version` | - | string | Latest | Install specific version |
-| `--destination` | `-d` | string | `/usr/local/bin` | Installation destination path |
-| `--native` | - | bool | `false` | Install using a built-in Go downloader instead of a shell script. Removes the WSL/Bash requirement on Windows |
+| `--destination` | `-d` | string | `/usr/local/bin` (Windows with `--native`: directory containing `manifest-cli.exe`) | Installation destination path |
+| `--native` | - | bool | `false` | Install using a built-in Go downloader instead of a shell script. Removes the WSL/Bash requirement on Windows. Without `--version`: `syft`, `trivy`, and `cdxgen` install a validated version; `spdx-sbom-generator`, `docker-sbom`, and `sigstore-bom` fetch the latest release |
 
 ### Hidden Flags
 
