@@ -87,6 +87,7 @@ When `--publish` is enabled, all [Publish Command](#publish-command) flags becom
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
 | `--install-dependencies` | - | bool | `false` | Install dependencies required to run your command (generator, static analysis, etc.) |
+| `--native` | - | bool | `false` | Use a built-in Go downloader instead of curl/bash scripts for on-demand installs, and prepend the install directory to `PATH` so natively-installed generators are found automatically. Required on Windows without WSL |
 
 ### Generator Passthrough Arguments
 
@@ -272,6 +273,7 @@ Install SBOM generators and related tools.
 | `--generator` | `-g` | string | `syft` | Name of generator to install: `syft`, `csbom`, `trivy`, `cdxgen`, `docker-sbom`, `spdx-sbom-generator`, `sigstore-sbom`, `bomdoctor` |
 | `--version` | - | string | Latest | Install specific version |
 | `--destination` | `-d` | string | `/usr/local/bin` | Installation destination path |
+| `--native` | - | bool | `false` | Install using a built-in Go downloader instead of a shell script. Removes the WSL/Bash requirement on Windows |
 
 ### Hidden Flags
 

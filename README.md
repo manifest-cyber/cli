@@ -159,7 +159,7 @@ Replace your existing installation with the new binaries or install them with th
 
 The `install` command can help you install supported generators that are required for generating SBOM with this tool
 
-**NOTE**: On Windows, you must have WSL enabled or `bash` available at the path. Otherwise, this command will not work.
+**NOTE**: On Windows, `install` uses a shell script by default and requires WSL or `bash` on the path. To install generators without WSL or a Unix shell, use `--native` -- see [Windows Installation](#windows-installation) below.
 
 ### Arguments
 
@@ -168,6 +168,7 @@ For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 ` -d`, `--destination`: Installation destination string (default "/usr/local/bin")
 `-g`, `--generator`: Name of generator to install. Supported options: [syft|csbom|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
 `--version`: Installs specific version of the generator
+`--native`: Install using a built-in Go downloader instead of a shell script. Available on all platforms; removes the WSL/Bash requirement on Windows.
 
 ### Generator Installation Example
 
@@ -176,6 +177,48 @@ This command installs the generator globally.
 ```bash
 manifest-cli install -g cdxgen
 ```
+
+### Windows Installation
+
+<details>
+<summary>Installing generators on Windows without WSL (--native)</summary>
+
+By default, `install` downloads generators with a shell script, which requires WSL or `bash`. Pass `--native` to install using a built-in Go downloader instead -- no WSL, Bash, or other Unix shell required.
+
+```bash
+# Installs syft.exe next to manifest-cli.exe -- already on PATH, no extra setup
+manifest-cli install -g syft --native
+```
+
+If you omit `-d`/`--destination`, the generator installs into the same directory as `manifest-cli.exe`, which is already on your `PATH` since that's where you're running `manifest-cli` from. If you pass a custom `-d`, add that directory to your Windows `PATH` manually before running `generate`.
+
+By default, `--native` installs a supported version of each generator: `syft`, `trivy`, and `cdxgen` install a version manifest-cli has validated; `spdx-sbom-generator`, `docker-sbom`, and `sigstore-bom` fetch the latest release. To pin an exact version, add `--version`:
+
+```bash
+manifest-cli install -g syft -d .\bin --native --version v1.44.0
+```
+
+Pass `--native` to `generate` as well, so it can find natively-installed generators on `PATH` automatically:
+
+```bash
+manifest-cli generate --generator syft --native ./my-project
+```
+
+**Generator support on Windows:**
+
+| Generator | `--native` | Prerequisites | Notes |
+| --- | --- | --- | --- |
+| syft | Yes | None | |
+| trivy | Yes | None | |
+| spdx-sbom-generator | Yes | None | |
+| docker-sbom | Yes | Docker Desktop | Always installs to `%USERPROFILE%\.docker\cli-plugins\`, regardless of `-d` |
+| csbom | Always native | None | No `--native` flag needed |
+| cdxgen | Yes (via npm) | Node.js and npm on `PATH` | Runs `npm install -g @cyclonedx/cdxgen` |
+| sigstore-bom | Install only | None | `generate` does not yet work on Windows -- see below |
+
+**sigstore-bom limitation**: `install --native` works for `sigstore-bom`, but running `generate --generator sigstore-bom` currently fails on Windows due to a known upstream issue. Use WSL for `sigstore-bom` generation only, until it's fixed upstream.
+
+</details>
 
 ## Generating an SBOM (`sbom`)
 
