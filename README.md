@@ -61,6 +61,8 @@ scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
 scoop install manifest-cli
 ```
 
+Installing generators on Windows? See [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below -- no WSL or Bash needed.
+
 </details>
 
 <details>
@@ -159,7 +161,7 @@ Replace your existing installation with the new binaries or install them with th
 
 The `install` command can help you install supported generators that are required for generating SBOM with this tool
 
-**NOTE**: On Windows, `install` uses a shell script by default and requires WSL or `bash` on the path. To install generators without WSL or a Unix shell, use `--native` -- see [Windows Installation](#windows-installation) below.
+**NOTE**: On Windows, `install` uses a shell script by default and requires WSL or `bash` on the path. To install generators without WSL or a Unix shell, use `--native` -- see [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below.
 
 ### Arguments
 
@@ -178,7 +180,7 @@ This command installs the generator globally.
 manifest-cli install -g cdxgen
 ```
 
-### Windows Installation
+### Windows Installation (--native, No WSL Required)
 
 <details>
 <summary>Installing generators on Windows without WSL (--native)</summary>
