@@ -1,0 +1,19 @@
+ARGUMENTS.md
+  s_a86c01c7e2a30e::t_67baa420add65d 48,273,334
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "46d0a296fdffdca34a73d240f375af93608b4793",
+  "prompts": {},
+  "sessions": {
+    "s_a86c01c7e2a30e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48912c85-1efd-4f81-baef-c6dd3facf6ed",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Marina Rosa <mrosa@manifestcyber.com>"
+    }
+  }
+}
