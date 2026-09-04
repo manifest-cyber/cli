@@ -1,9 +1,5 @@
 # Manifest CLI
 
-> [!NOTE]
-> Starting _January 31st, 2024_ all Manifest CLI releases will be named `manifest-cli` and changed away from the current name: `manifest`.
-> Users will need to change the name anywhere that `manifest` is being called (e.g. pipelines or scripts) to get the latest Manifest CLI functionality.
-
 ## Overview
 
 The Manifest CLI is a cross-platform application and supports both amd and arm architectures. Using various methods, you can install it on Linux, Windows, or Mac (OSX).
@@ -167,8 +163,8 @@ The `install` command can help you install supported generators that are require
 
 For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 
-` -d`, `--destination`: Installation destination string (default "/usr/local/bin"; on Windows with `--native`, defaults to the directory containing `manifest-cli.exe` instead)
-`-g`, `--generator`: Name of generator to install. Supported options: [syft|csbom|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-sbom] (default "syft")
+`-d`, `--destination`: Installation destination string (default "/usr/local/bin"; on Windows with `--native`, defaults to the directory containing `manifest-cli.exe` instead)
+`-g`, `--generator`: Name of generator to install. Supported options: [syft|csbom|trivy|cdxgen|docker-sbom|spdx-sbom-generator|sigstore-bom] (default "syft")
 `--version`: Installs specific version of the generator
 `--native`: Install using a built-in Go downloader instead of a shell script. Available on all platforms; removes the WSL/Bash requirement on Windows.
 
@@ -268,19 +264,17 @@ Remember to replace `/path/to/folder` with the actual path of the folder you wan
 
 For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 
-`-g`, `--generator`: the generator to use (syft, csbom, trivy, cdxgen, sigstore-bom).
+`-g`, `--generator`: the generator to use (syft, csbom, trivy, cdxgen, docker-sbom, spdx-sbom-generator, sigstore-bom).
 
 `-p`, `--paths`: **[DEPRECATED: use positional arguments instead]** the paths to local repositories, or name:version of a container, to scan.
 
 `-f`, `--file`: filename for the output file.
 
-`-h`, `help`: Get help on how to use the cli.
+`-h`, `--help`: Get help on how to use the cli.
 
 `-k`, `--api-key`: Manifest API key, if publish is set to true.
 
 `-o`, `--output`: SBOM format to use. Either cyclonedx-json or spdx-json.
-
-Note: CycloneDX released v1.5 on June 25, 2023. Currently, Manifest only provides partial support for v1.5 and full support for prior versions.
 
 `-n`, `--name`: Name of the generated SBOM. Overrides any existing version info.
 
@@ -496,11 +490,7 @@ done
 
 ## (Beta) Generating & Publishing SBOM Attestation
 
-## Keyless Signing
-
-Coming Soon!
-
-## Local Private Key Generation
+### Local Private Key Generation
 
 You will need `cosign` installed to proceed. [Click here to get started](https://github.com/sigstore/cosign/tree/main#installation).
 
@@ -528,7 +518,7 @@ Simply include these two flags in any of the examples found in [Quickstart](#qui
 manifest-cli sbom --attest --key my-secret-key.key ./
 ```
 
-This also supported for merging SBOMs.
+This is also supported for merging SBOMs.
 
 ```bash
 manifest-cli merge --attest --key my-secret-key.key sbom1.json sbom2.json
