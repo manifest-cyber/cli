@@ -85,7 +85,7 @@ Requires [Scoop](https://scoop.sh) itself to be installed first.
 </details>
 
 <details>
-<summary>Manual (PowerShell or Command Prompt)</summary>
+<summary>PowerShell or Command Prompt</summary>
 
 `curl.exe` and `tar` ship with Windows 10/11, so you can download and extract the binary directly from Command Prompt or PowerShell:
 
@@ -109,11 +109,13 @@ Installing generators (syft, trivy, cdxgen, etc.) on Windows is a separate step 
 <details>
 <summary>Manual Installation</summary>
 
-Download the pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` ([Windows](#windows-install)), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Download the pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
 Copy them to the desired location or install them with the appropriate tools.
 
 For Mac users, please note that the current release is not yet signed by Apple Developer.
 Therefore, you must enable it under Privacy & Security > Security > Open Anyway > Open.
+
+For Windows users, follow the instructions in the [Windows](#windows-install) section instead.
 
 </details>
 
@@ -184,7 +186,7 @@ scoop update manifest-cli
 </details>
 
 <details>
-<summary>Manual (PowerShell or Command Prompt)</summary>
+<summary>PowerShell or Command Prompt</summary>
 
 ```bat
 curl.exe -sSfLo manifest-cli.zip https://github.com/manifest-cyber/cli/releases/latest/download/manifest-cli_windows_x86_64.zip
@@ -202,8 +204,10 @@ To update to a specific version instead of the latest, replace `latest/download`
 <details>
 <summary>Manual Installation</summary>
 
-Download the latest pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` ([Windows](#windows-update)), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Download the latest pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
 Replace your existing installation with the new binaries or install them with the appropriate tools.
+
+For Windows users, follow the instructions in the [Windows](#windows-update) section instead.
 
 </details>
 
