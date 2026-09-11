@@ -28,6 +28,8 @@ Use a positional argument to pass a specific release.
 curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
 ```
 
+**Note**: This command pipes to `sh`, so it requires a POSIX shell -- Linux, macOS, or Windows under WSL or Git Bash. It will not run in a native PowerShell or Command Prompt session. On native Windows, see [Windows](#windows-install) below instead.
+
 </details>
 
 <details>
@@ -50,18 +52,6 @@ brew install manifest-cyber/tap/manifest-cli
 </details>
 
 <details>
-<summary>Scoop</summary>
-
-```bash
-scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
-scoop install manifest-cli
-```
-
-Installing generators on Windows? See [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below -- no WSL or Bash needed.
-
-</details>
-
-<details>
 <summary>Yum</summary>
 
 ```bash
@@ -76,14 +66,61 @@ sudo yum install manifest-cli
 - if running as admin, you can omit `sudo`.
 </details>
 
+<a name="windows-install"></a>
+<details>
+<summary>Windows</summary>
+
+No WSL, Git Bash, or other POSIX shell required -- pick one of the methods below.
+
+<details>
+<summary>Scoop</summary>
+
+```bash
+scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
+scoop install manifest-cli
+```
+
+Requires [Scoop](https://scoop.sh) itself to be installed first.
+
+</details>
+
+<details>
+<summary>PowerShell or Command Prompt</summary>
+
+`curl.exe` and `tar` ship with Windows 10/11, so you can download and extract the binary directly from Command Prompt or PowerShell:
+
+```bat
+curl.exe -sSfLo manifest-cli.zip https://github.com/manifest-cyber/cli/releases/latest/download/manifest-cli_windows_x86_64.zip
+tar -xf manifest-cli.zip
+```
+
+This extracts `manifest-cli.exe` into the current folder. Move it to a folder on your `PATH`, or add the folder to `PATH` (see [Adding a Folder to the Path (Windows)](#adding-a-folder-to-the-path-windows) below).
+
+To install a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
+
+</details>
+
+<details>
+<summary>Direct Download</summary>
+
+If you prefer, pick a version from the [releases](https://github.com/manifest-cyber/cli/releases) page, download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and follow the same PATH steps above.
+
+</details>
+
+Installing generators (syft, trivy, cdxgen, etc.) on Windows is a separate step -- see [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below.
+
+</details>
+
 <details>
 <summary>Manual Installation</summary>
 
-Download the pre-compiled binaries, `.deb`, `.rpm`, or `.apk`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Download the pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
 Copy them to the desired location or install them with the appropriate tools.
 
 For Mac users, please note that the current release is not yet signed by Apple Developer.
 Therefore, you must enable it under Privacy & Security > Security > Open Anyway > Open.
+
+For Windows users, follow the instructions in the [Windows](#windows-install) section instead.
 
 </details>
 
@@ -106,6 +143,8 @@ To update to a specific version:
 curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
 ```
 
+**Note**: This command pipes to `sh`, so it requires a POSIX shell (Linux, macOS, or Windows under WSL/Git Bash) -- it will not run in native PowerShell or Command Prompt. On native Windows, see [Windows](#windows-update) below instead.
+
 </details>
 
 <details>
@@ -127,15 +166,6 @@ brew upgrade manifest-cyber/tap/manifest-cli
 </details>
 
 <details>
-<summary>Scoop</summary>
-
-```bash
-scoop update manifest-cli
-```
-
-</details>
-
-<details>
 <summary>Yum</summary>
 
 ```bash
@@ -145,11 +175,51 @@ sudo yum update manifest-cli
 - if running as admin, you can omit `sudo`.
 </details>
 
+<a name="windows-update"></a>
+<details>
+<summary>Windows</summary>
+
+No WSL, Git Bash, or other POSIX shell required -- pick one of the methods below.
+
+<details>
+<summary>Scoop</summary>
+
+```bash
+scoop update manifest-cli
+```
+
+</details>
+
+<details>
+<summary>PowerShell or Command Prompt</summary>
+
+```bat
+curl.exe -sSfLo manifest-cli.zip https://github.com/manifest-cyber/cli/releases/latest/download/manifest-cli_windows_x86_64.zip
+tar -xf manifest-cli.zip
+```
+
+Replace the existing `manifest-cli.exe` on your `PATH` with the extracted one.
+
+To update to a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
+
+</details>
+
+<details>
+<summary>Direct Download</summary>
+
+If you prefer, pick a version from the [releases](https://github.com/manifest-cyber/cli/releases) page, download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and replace your existing `manifest-cli.exe`.
+
+</details>
+
+</details>
+
 <details>
 <summary>Manual Installation</summary>
 
-Download the latest pre-compiled binaries, `.deb`, `.rpm`, or `.apk`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Download the latest pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
 Replace your existing installation with the new binaries or install them with the appropriate tools.
+
+For Windows users, follow the instructions in the [Windows](#windows-update) section instead.
 
 </details>
 
@@ -180,6 +250,8 @@ manifest-cli install -g cdxgen
 
 <details>
 <summary>Installing generators on Windows without WSL (--native)</summary>
+
+This section covers installing SBOM *generators* (syft, trivy, cdxgen, etc.) on Windows. To install `manifest-cli` itself on native Windows, see Manual Installation under [Installation](#installation) above.
 
 By default, `install` downloads generators with a shell script, which requires WSL or `bash`. Pass `--native` to install using a built-in Go downloader instead -- no WSL, Bash, or other Unix shell required.
 
