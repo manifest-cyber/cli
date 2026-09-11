@@ -98,6 +98,8 @@ This extracts `manifest-cli.exe` into the current folder. Move it to a folder on
 
 To install a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
 
+Prefer to download it yourself instead of using the command line? Go to the [releases](https://github.com/manifest-cyber/cli/releases) page, pick a version, and download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and follow the same PATH steps above.
+
 Installing generators (syft, trivy, cdxgen, etc.) on Windows is a separate step -- see [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below.
 
 </details>
