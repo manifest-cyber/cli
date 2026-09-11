@@ -28,6 +28,8 @@ Use a positional argument to pass a specific release.
 curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
 ```
 
+**Note**: This command pipes to `sh`, so it requires a POSIX shell -- Linux, macOS, or Windows under WSL or Git Bash. It will not run in a native PowerShell or Command Prompt session. On native Windows, use the PowerShell sequence under Manual Installation below instead.
+
 </details>
 
 <details>
@@ -79,11 +81,24 @@ sudo yum install manifest-cli
 <details>
 <summary>Manual Installation</summary>
 
-Download the pre-compiled binaries, `.deb`, `.rpm`, or `.apk`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Download the pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` (Windows), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
 Copy them to the desired location or install them with the appropriate tools.
 
 For Mac users, please note that the current release is not yet signed by Apple Developer.
 Therefore, you must enable it under Privacy & Security > Security > Open Anyway > Open.
+
+**Windows (native, no WSL/Git Bash required)**: `curl.exe` and `tar` ship with Windows 10/11, so you can download and extract the binary directly from Command Prompt or PowerShell:
+
+```bat
+curl.exe -sSfLo manifest-cli.zip https://github.com/manifest-cyber/cli/releases/latest/download/manifest-cli_windows_x86_64.zip
+tar -xf manifest-cli.zip
+```
+
+This extracts `manifest-cli.exe` into the current folder. Move it to a folder on your `PATH`, or add the folder to `PATH` (see [Adding a Folder to the Path (Windows)](#adding-a-folder-to-the-path-windows) below).
+
+To install a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
+
+Installing generators (syft, trivy, cdxgen, etc.) on Windows is a separate step -- see [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below.
 
 </details>
 
@@ -105,6 +120,8 @@ To update to a specific version:
 ```bash
 curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
 ```
+
+**Note**: This command pipes to `sh`, so it requires a POSIX shell (Linux, macOS, or Windows under WSL/Git Bash) -- it will not run in native PowerShell or Command Prompt. On native Windows, use the PowerShell sequence under Manual Installation below instead.
 
 </details>
 
@@ -148,8 +165,19 @@ sudo yum update manifest-cli
 <details>
 <summary>Manual Installation</summary>
 
-Download the latest pre-compiled binaries, `.deb`, `.rpm`, or `.apk`, from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Download the latest pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` (Windows), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
 Replace your existing installation with the new binaries or install them with the appropriate tools.
+
+**Windows (native, no WSL/Git Bash required)**:
+
+```bat
+curl.exe -sSfLo manifest-cli.zip https://github.com/manifest-cyber/cli/releases/latest/download/manifest-cli_windows_x86_64.zip
+tar -xf manifest-cli.zip
+```
+
+Replace the existing `manifest-cli.exe` on your `PATH` with the extracted one.
+
+To update to a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
 
 </details>
 
@@ -180,6 +208,8 @@ manifest-cli install -g cdxgen
 
 <details>
 <summary>Installing generators on Windows without WSL (--native)</summary>
+
+This section covers installing SBOM *generators* (syft, trivy, cdxgen, etc.) on Windows. To install `manifest-cli` itself on native Windows, see Manual Installation under [Installation](#installation) above.
 
 By default, `install` downloads generators with a shell script, which requires WSL or `bash`. Pass `--native` to install using a built-in Go downloader instead -- no WSL, Bash, or other Unix shell required.
 
