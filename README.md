@@ -28,7 +28,7 @@ Use a positional argument to pass a specific release.
 curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
 ```
 
-**Note**: This command pipes to `sh`, so it requires a POSIX shell -- Linux, macOS, or Windows under WSL or Git Bash. It will not run in a native PowerShell or Command Prompt session. On native Windows, use the PowerShell sequence under Manual Installation below instead.
+**Note**: This command pipes to `sh`, so it requires a POSIX shell -- Linux, macOS, or Windows under WSL or Git Bash. It will not run in a native PowerShell or Command Prompt session. On native Windows, see [Windows](#windows-install) below instead.
 
 </details>
 
@@ -52,18 +52,6 @@ brew install manifest-cyber/tap/manifest-cli
 </details>
 
 <details>
-<summary>Scoop</summary>
-
-```bash
-scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
-scoop install manifest-cli
-```
-
-Installing generators on Windows? See [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below -- no WSL or Bash needed.
-
-</details>
-
-<details>
 <summary>Yum</summary>
 
 ```bash
@@ -78,16 +66,28 @@ sudo yum install manifest-cli
 - if running as admin, you can omit `sudo`.
 </details>
 
+<a name="windows-install"></a>
 <details>
-<summary>Manual Installation</summary>
+<summary>Windows</summary>
 
-Download the pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` (Windows), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
-Copy them to the desired location or install them with the appropriate tools.
+No WSL, Git Bash, or other POSIX shell required -- pick one of the methods below.
 
-For Mac users, please note that the current release is not yet signed by Apple Developer.
-Therefore, you must enable it under Privacy & Security > Security > Open Anyway > Open.
+<details>
+<summary>Scoop</summary>
 
-**Windows (native, no WSL/Git Bash required)**: `curl.exe` and `tar` ship with Windows 10/11, so you can download and extract the binary directly from Command Prompt or PowerShell:
+```bash
+scoop bucket add manifest-cli https://github.com/manifest-cyber/scoop-bucket.git
+scoop install manifest-cli
+```
+
+Requires [Scoop](https://scoop.sh) itself to be installed first.
+
+</details>
+
+<details>
+<summary>Manual (PowerShell or Command Prompt)</summary>
+
+`curl.exe` and `tar` ship with Windows 10/11, so you can download and extract the binary directly from Command Prompt or PowerShell:
 
 ```bat
 curl.exe -sSfLo manifest-cli.zip https://github.com/manifest-cyber/cli/releases/latest/download/manifest-cli_windows_x86_64.zip
@@ -100,7 +100,20 @@ To install a specific version instead of the latest, replace `latest/download` w
 
 Prefer to download it yourself instead of using the command line? Go to the [releases](https://github.com/manifest-cyber/cli/releases) page, pick a version, and download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and follow the same PATH steps above.
 
+</details>
+
 Installing generators (syft, trivy, cdxgen, etc.) on Windows is a separate step -- see [Windows Installation (--native, No WSL Required)](#windows-installation---native-no-wsl-required) below.
+
+</details>
+
+<details>
+<summary>Manual Installation</summary>
+
+Download the pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` ([Windows](#windows-install)), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Copy them to the desired location or install them with the appropriate tools.
+
+For Mac users, please note that the current release is not yet signed by Apple Developer.
+Therefore, you must enable it under Privacy & Security > Security > Open Anyway > Open.
 
 </details>
 
@@ -123,7 +136,7 @@ To update to a specific version:
 curl -sSfL https://raw.githubusercontent.com/manifest-cyber/cli/main/install.sh | sh -s -- -b /usr/local/bin v0.14.8
 ```
 
-**Note**: This command pipes to `sh`, so it requires a POSIX shell (Linux, macOS, or Windows under WSL/Git Bash) -- it will not run in native PowerShell or Command Prompt. On native Windows, use the PowerShell sequence under Manual Installation below instead.
+**Note**: This command pipes to `sh`, so it requires a POSIX shell (Linux, macOS, or Windows under WSL/Git Bash) -- it will not run in native PowerShell or Command Prompt. On native Windows, see [Windows](#windows-update) below instead.
 
 </details>
 
@@ -146,15 +159,6 @@ brew upgrade manifest-cyber/tap/manifest-cli
 </details>
 
 <details>
-<summary>Scoop</summary>
-
-```bash
-scoop update manifest-cli
-```
-
-</details>
-
-<details>
 <summary>Yum</summary>
 
 ```bash
@@ -164,13 +168,23 @@ sudo yum update manifest-cli
 - if running as admin, you can omit `sudo`.
 </details>
 
+<a name="windows-update"></a>
 <details>
-<summary>Manual Installation</summary>
+<summary>Windows</summary>
 
-Download the latest pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` (Windows), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
-Replace your existing installation with the new binaries or install them with the appropriate tools.
+No WSL, Git Bash, or other POSIX shell required -- pick one of the methods below.
 
-**Windows (native, no WSL/Git Bash required)**:
+<details>
+<summary>Scoop</summary>
+
+```bash
+scoop update manifest-cli
+```
+
+</details>
+
+<details>
+<summary>Manual (PowerShell or Command Prompt)</summary>
 
 ```bat
 curl.exe -sSfLo manifest-cli.zip https://github.com/manifest-cyber/cli/releases/latest/download/manifest-cli_windows_x86_64.zip
@@ -180,6 +194,16 @@ tar -xf manifest-cli.zip
 Replace the existing `manifest-cli.exe` on your `PATH` with the extracted one.
 
 To update to a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
+
+</details>
+
+</details>
+
+<details>
+<summary>Manual Installation</summary>
+
+Download the latest pre-compiled binaries, `.deb`, `.rpm`, `.apk`, or `.zip` ([Windows](#windows-update)), from the [releases](https://github.com/manifest-cyber/cli/releases) page.
+Replace your existing installation with the new binaries or install them with the appropriate tools.
 
 </details>
 
