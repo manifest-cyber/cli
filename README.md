@@ -103,7 +103,7 @@ To install a specific version instead of the latest, replace `latest/download` w
 <details>
 <summary>Direct Download</summary>
 
-Go to the [releases](https://github.com/manifest-cyber/cli/releases) page, pick a version, and download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and follow the same PATH steps as above.
+If you prefer, pick a version from the [releases](https://github.com/manifest-cyber/cli/releases) page, download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and follow the same PATH steps above.
 
 </details>
 
@@ -207,7 +207,7 @@ To update to a specific version instead of the latest, replace `latest/download`
 <details>
 <summary>Direct Download</summary>
 
-Go to the [releases](https://github.com/manifest-cyber/cli/releases) page, pick a version, and download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and replace your existing `manifest-cli.exe`.
+If you prefer, pick a version from the [releases](https://github.com/manifest-cyber/cli/releases) page, download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and replace your existing `manifest-cli.exe`.
 
 </details>
 
