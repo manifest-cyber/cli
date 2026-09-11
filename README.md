@@ -98,7 +98,12 @@ This extracts `manifest-cli.exe` into the current folder. Move it to a folder on
 
 To install a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
 
-Prefer to download it yourself instead of using the command line? Go to the [releases](https://github.com/manifest-cyber/cli/releases) page, pick a version, and download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and follow the same PATH steps above.
+</details>
+
+<details>
+<summary>Direct Download</summary>
+
+Go to the [releases](https://github.com/manifest-cyber/cli/releases) page, pick a version, and download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and follow the same PATH steps as above.
 
 </details>
 
@@ -196,6 +201,13 @@ tar -xf manifest-cli.zip
 Replace the existing `manifest-cli.exe` on your `PATH` with the extracted one.
 
 To update to a specific version instead of the latest, replace `latest/download` with `download/vX.Y.Z` (see [releases](https://github.com/manifest-cyber/cli/releases) for available tags).
+
+</details>
+
+<details>
+<summary>Direct Download</summary>
+
+Go to the [releases](https://github.com/manifest-cyber/cli/releases) page, pick a version, and download `manifest-cli_windows_x86_64.zip` from its assets, then extract it and replace your existing `manifest-cli.exe`.
 
 </details>
 
