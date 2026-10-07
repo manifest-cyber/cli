@@ -572,7 +572,7 @@ While snapshot mode reconciles your organization's asset inventory, `--update-pr
 
 `--update-product` requires `--product-id`, `--snapshot-label`, and `--snapshot-timestamp`, and is mutually exclusive with `--replace-in-product` (use `--replace-in-product` for a single per-asset version swap, and `--update-product` for a full snapshot reconciliation).
 
-The reconcile is idempotent across a batch: when you publish several SBOMs to the same product and snapshot, only the first call removes stale assets, and each subsequent call just adds its asset. This makes it safe to loop over every service in a deploy:
+When every asset in the pass carries a new version (see rule 4 in [snapshot pipeline rules](#snapshot-pipeline-rules)), only the first call removes anything, and later calls just add their asset. Without a new version, each call can remove assets that earlier calls in the same pass just added. To loop over every service in a deploy, compute the timestamp once and pass a per-pass `--version`:
 
 ```bash
 export MANIFEST_API_KEY=your-api-token
