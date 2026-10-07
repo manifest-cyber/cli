@@ -160,11 +160,11 @@ Publish SBOM(s) to the Manifest platform.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--snapshot-label` | - | string | - | Label identifying the snapshot this SBOM belongs to, e.g. an environment name or release tag (required with `--snapshot-timestamp`) |
-| `--snapshot-timestamp` | - | string | - | RFC3339 timestamp the snapshot represents, with an explicit UTC offset, e.g. `2024-01-15T10:00:00Z` (required with `--snapshot-label`) |
-| `--update-product` | - | bool | `false` | After upload, reconcile the product's inventory to the snapshot (remove assets carrying the snapshot label that predate the timestamp), then add this asset. Requires `--product-id`, `--snapshot-label`, and `--snapshot-timestamp`; mutually exclusive with `--replace-in-product` |
+| `--snapshot-label` | - | string | - | Label identifying the snapshot pipeline this SBOM belongs to; must be unique to one product's pipeline and never renamed (matching is org-wide and case-sensitive) (required with `--snapshot-timestamp`) |
+| `--snapshot-timestamp` | - | string | - | RFC3339 timestamp for the start of the snapshot pass, with an explicit UTC offset, e.g. `2024-01-15T10:00:00Z`; compute once per pass and reuse it for every publish and retry in that pass (required with `--snapshot-label`) |
+| `--update-product` | - | bool | `false` | After upload, reconcile the product's inventory to the snapshot (delete inventory rows for assets carrying the snapshot label that were created before the timestamp), then add this asset. Requires `--product-id`, `--snapshot-label`, and `--snapshot-timestamp`; mutually exclusive with `--replace-in-product` |
 
-> **Note:** Pass both snapshot flags together to enable snapshot mode. The timestamp must be RFC3339 with a UTC offset, must not be in the future, and must not be more than 7 days in the past. Add `--update-product` (with `--product-id`) to also reconcile a product's inventory to the snapshot. See [Publishing Snapshots](README.md#publishing-snapshots) in the README for what snapshot mode does.
+> **Note:** Pass both snapshot flags together to enable snapshot mode. The timestamp must be RFC3339 with a UTC offset, must not be in the future, and must not be more than 7 days in the past. Add `--update-product` (with `--product-id`) to also reconcile a product's inventory to the snapshot. See [Publishing Snapshots](README.md#publishing-snapshots) in the README for what snapshot mode does, and follow the [Snapshot Pipeline Rules](README.md#snapshot-pipeline-rules) before using it in CI.
 
 ### VDR (Vulnerability Disclosure Report)
 

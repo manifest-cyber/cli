@@ -503,62 +503,94 @@ manifest-cli publish sbom.json \
 
 ## Publishing Snapshots
 
-A snapshot tells the Manifest platform that a group of SBOMs represents the complete state of an environment or release at a single point in time. When you publish in snapshot mode, the platform runs a deactivation sweep after the upload completes: assets that share the snapshot label but were last seen *before* the snapshot timestamp are marked inactive. This keeps your inventory in sync with what is actually deployed, without you having to deactivate stale assets by hand.
+A snapshot tells the Manifest platform that a group of SBOMs represents the complete state of an environment or product at a single point in time. When you publish in snapshot mode, the platform runs a deactivation sweep on each upload: every asset in your organization that carries the snapshot label and was *created* before the snapshot timestamp is marked inactive. Assets left out of the snapshot, such as a retired service, are deactivated along with older versions. This keeps your inventory in sync with what is actually deployed, without you having to deactivate stale assets by hand.
 
-Common uses are reconciling a live environment (e.g. `production`, `staging`) on each deploy, or marking everything from a prior release tag inactive when a new release ships.
+> **Warning:** The sweep matches assets by label name across your **whole organization**, not just one product, and it decides what is stale by when each asset record was first created. A pipeline that breaks the [snapshot pipeline rules](#snapshot-pipeline-rules) can silently deactivate current assets (including assets in other products) or leave old assets active indefinitely. Read those rules before wiring snapshots into CI.
+
+Common uses are reconciling the live contents of a product or environment (e.g. `payments-platform-prod`) on each deploy or on a schedule, and retiring assets for services that have been removed from that product or environment.
 
 Snapshot mode is enabled by passing **both** of these flags together:
 
-- `--snapshot-label <label>`: identifies the snapshot the SBOM belongs to, such as an environment name or release tag (e.g. `production`, `v1.4.0`).
-- `--snapshot-timestamp <timestamp>`: an RFC3339 timestamp with an explicit UTC offset (e.g. `2024-01-15T10:00:00Z`). This is the moment the snapshot represents and the boundary the deactivation sweep uses.
+- `--snapshot-label <label>`: identifies the pipeline the SBOM belongs to. Use a name that is unique to one product's pipeline and will never change (e.g. `payments-platform-prod`). The label is also attached to each published asset.
+- `--snapshot-timestamp <timestamp>`: an RFC3339 timestamp with an explicit UTC offset (e.g. `2024-01-15T10:00:00Z`). This is the start of the snapshot pass and the boundary the deactivation sweep uses. Compute it once per pass (see [snapshot pipeline rules](#snapshot-pipeline-rules)).
 
-The CLI validates the timestamp before making any API call. It must be RFC3339 with an explicit UTC offset (a trailing `Z` for UTC, or an offset like `-05:00`), must not be in the future, and must not be more than 7 days in the past. Passing one flag without the other fails validation; passing neither publishes the SBOM normally with no sweep.
+The CLI validates the timestamp before making any API call. It must be RFC3339 with an explicit UTC offset (a trailing `Z` for UTC, or an offset like `-05:00`), must not be in the future, and must not be more than 7 days in the past. Because of the 7-day limit, a pass can only be retried with its original timestamp within 7 days of that timestamp; after that, run a fresh pass. Passing one flag without the other fails validation; passing neither publishes the SBOM normally with no sweep.
 
 These flags are available on the `publish`, `sbom --publish`, and `merge --publish` commands.
 
 ```bash
-# Publish an existing SBOM as part of the production snapshot
+# Publish an existing SBOM as part of the payments-platform-prod snapshot
 manifest-cli publish sbom.json \
-  --snapshot-label production \
+  --snapshot-label payments-platform-prod \
   --snapshot-timestamp 2024-01-15T10:00:00Z
 
-# Generate and publish in one step, tagged to a release snapshot
+# Generate and publish in one step
 manifest-cli sbom ./ -f sbom.json --publish \
-  --snapshot-label v1.4.0 \
+  --snapshot-label payments-platform-prod \
   --snapshot-timestamp 2024-01-15T10:00:00Z
 ```
 
-In CI you will usually generate the timestamp at publish time:
+In CI, compute the timestamp once at the start of the pass and reuse it for every publish in that pass:
 
 ```bash
 export MANIFEST_API_KEY=your-api-token
+
+# Once, at the start of the pass. Persist this value (for example, as a
+# pipeline output) so that a retry of this pass reuses it instead of
+# generating a new one.
 SNAPSHOT_TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-manifest-cli publish sbom.json \
-  --snapshot-label production \
-  --snapshot-timestamp "$SNAPSHOT_TS"
+
+for sbom in sboms/*.json; do
+  manifest-cli publish "$sbom" \
+    --snapshot-label payments-platform-prod \
+    --snapshot-timestamp "$SNAPSHOT_TS" \
+    --version "$SNAPSHOT_TS"
+done
 ```
 
-> **Note:** The deactivation sweep only runs when snapshot mode is enabled. Snapshot mode and `--deactivate-older` serve different purposes: `--deactivate-older` deactivates prior versions of the same asset, while snapshots reconcile an entire environment or release against a point in time.
+Drop `--version` only if each SBOM's own version already changes on every build.
+
+> **Note:** The deactivation sweep only runs when snapshot mode is enabled. Snapshot mode and `--deactivate-older` serve different purposes: `--deactivate-older` deactivates prior versions of the same asset, while snapshots reconcile an entire environment or product against a point in time.
+
+### Snapshot Pipeline Rules
+
+Follow all of these. Breaking any of them fails silently: the CLI reports success, and the damage shows up later as missing or duplicate active assets.
+
+1. **Use one snapshot label per product pipeline, and never share it.** The sweep deactivates matching assets across your whole organization; `--product-id` does not narrow it. If two products publish with the same snapshot label, each product's run deactivates the other product's assets. Snapshot labels and asset labels share one set of label names, so don't use a snapshot label's name with `--asset-label` or on assets in any other product.
+2. **Never rename the snapshot label.** Label matching is exact and case-sensitive: `UAT`, `uat`, and `Uat` are three different labels (only leading and trailing spaces are ignored). After a rename, the first run finds nothing to deactivate under the new label, and assets from runs under the old label stay active permanently because no future run will carry that label again. If you must rename, contact Manifest support to clean up the previous generation.
+3. **Compute `--snapshot-timestamp` once per pass, before the first upload, and pass the same value to every publish in the pass.** Reuse that value on any retry of the pass. Generating a new timestamp for each publish (for example, `$(date ...)` inline in each command) makes each publish deactivate the assets that the earlier publishes in the same pass just created.
+4. **Give every asset a new version on every pass.** The platform identifies an asset by its name and version. Publishing the same name and version again updates the existing asset instead of creating a new one, and that asset keeps its original creation time, which is before the new pass's timestamp. Every later publish in the pass then deactivates it (and, with `--update-product`, removes it from the product) even though it is part of the current snapshot, so of the assets affected this way only the one published last stays active. If the version inside each SBOM already changes on every build (for example, a commit SHA or build number), this is handled. Otherwise, pass `--version` with a value unique to the pass, such as the snapshot timestamp itself. Don't rely on stable version strings (such as `1.4.0` for a service that hasn't changed) in a snapshot pipeline. If an SBOM has no version, Manifest uses a checksum of the file, so republishing an unchanged file counts as the same version.
+5. **Include every SBOM in every pass.** Any asset under the label that isn't republished in a pass is treated as stale and deactivated. This is how retired services drop out, but it also means a pass that skips an SBOM deactivates that asset.
+6. **Expect the previous generation to go inactive as soon as the pass starts.** The sweep runs on each upload, before the platform has processed it, so the first upload of a pass deactivates the entire previous generation. Until the pass finishes, only the assets published so far are active. If a pass stops partway, it stays that way until you retry with the same timestamp.
+7. **Don't run two passes with the same snapshot label at the same time.** Overlapping passes race each other's sweeps, and which assets end up active depends on timing.
+
+`--asset-label` has no effect on the sweep. It is a tag for filtering in the Manifest app, and only the snapshot label decides what gets deactivated. An asset published in snapshot mode carries both its asset labels and the snapshot label.
 
 ### Reconciling a Product's Inventory to a Snapshot
 
-While snapshot mode reconciles your organization's asset inventory, `--update-product` reconciles a specific **product's inventory** to the same snapshot. After the upload completes, it removes assets in the product that carry the snapshot label and predate the snapshot timestamp, then adds the asset you are publishing. This keeps a product's inventory in sync with exactly what a given environment or release contains.
+While snapshot mode reconciles your organization's asset inventory, `--update-product` reconciles a specific **product's inventory** to the same snapshot. After the upload completes, it removes from the product every asset that carries the snapshot label and was created before the snapshot timestamp, then adds the asset you are publishing. This keeps a product's inventory in sync with exactly what a given environment or product contains.
 
 `--update-product` requires `--product-id`, `--snapshot-label`, and `--snapshot-timestamp`, and is mutually exclusive with `--replace-in-product` (use `--replace-in-product` for a single per-asset version swap, and `--update-product` for a full snapshot reconciliation).
 
-The reconcile is idempotent across a batch: when you publish several SBOMs to the same product and snapshot, only the first call removes stale assets, and each subsequent call just adds its asset. This makes it safe to loop over every service in a deploy:
+When every asset in the pass carries a new version (see rule 4 in [snapshot pipeline rules](#snapshot-pipeline-rules)), only the first call removes anything, and later calls just add their asset. Without a new version, each call can remove assets that earlier calls in the same pass just added. To loop over every service in a deploy, compute the timestamp once and pass a per-pass `--version`:
 
 ```bash
 export MANIFEST_API_KEY=your-api-token
+# Compute the timestamp once for the whole pass, never inside the loop.
 SNAPSHOT_TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 for sbom in service-a.json service-b.json service-c.json; do
   manifest-cli publish "$sbom" \
     --product-id YOUR_PRODUCT_ID \
     --update-product \
-    --snapshot-label production \
-    --snapshot-timestamp "$SNAPSHOT_TS"
+    --snapshot-label payments-platform-prod \
+    --snapshot-timestamp "$SNAPSHOT_TS" \
+    --version "$SNAPSHOT_TS"
 done
 ```
+
+The removal **deletes** the product's inventory rows for the stale assets, so the previous generation disappears from the product view rather than appearing as inactive. The assets themselves stay in your organization's asset list, marked inactive by the snapshot's deactivation sweep. If you want previous versions to remain listed in the product as inactive, publish with `--product-id` and the snapshot flags but without `--update-product`.
+
+Only assets whose record was *created* at or after the snapshot timestamp are safe from the removal. Publishing an SBOM with the same name and version as an existing asset updates that asset instead of creating a new one, and the asset keeps its original creation time, so later publishes in the same snapshot remove it. This is why the example passes a per-pass `--version`; see [snapshot pipeline rules](#snapshot-pipeline-rules). Assets that don't carry the snapshot label are left untouched.
 
 ## (Beta) Generating & Publishing SBOM Attestation
 
