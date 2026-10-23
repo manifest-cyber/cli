@@ -238,6 +238,8 @@ For an exhaustive list of arguments, see [ARGUMENTS.md](ARGUMENTS.md).
 `--version`: Installs specific version of the generator
 `--native`: Install using a built-in Go downloader instead of a shell script. Available on all platforms; removes the WSL/Bash requirement on Windows.
 
+**Note**: On Linux/macOS, the default destination (`/usr/local/bin`) is often owned by root. If it's not writable by your user, either run the command with `sudo` (a command that temporarily grants administrator-level permissions), or pass `-d` to a directory you own (e.g. `-d ~/.local/bin`, making sure it's on your `PATH`).
+
 ### Generator Installation Example
 
 This command installs the generator globally.
