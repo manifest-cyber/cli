@@ -248,6 +248,46 @@ This command installs the generator globally.
 manifest-cli install -g cdxgen
 ```
 
+### Offline or Air-Gapped Installation
+
+<details>
+<summary>Installing generators on a machine without internet access</summary>
+
+`install` downloads generators over the network, so it fails on a machine without internet access. You don't need it there: `generate` runs whichever generator binary it finds on your `PATH`, however it got there. To install a generator offline, copy its binary to the offline machine and put it in a folder on the `PATH` (see [Adding a Folder to the Path (Mac/Linux)](#adding-a-folder-to-the-path-maclinux)). Once it's there, `generate` has nothing to download for it, with or without `--install-dependencies`.
+
+To install `manifest-cli` itself offline, see Manual Installation under [Installation](#installation) above.
+
+**Option 1: install on a connected machine, then copy.** On a machine with internet access and the same OS and architecture as the offline machine, install each generator into a folder of its own:
+
+```bash
+manifest-cli install -g csbom -d ./offline-bin
+manifest-cli install -g syft -d ./offline-bin
+```
+
+Copy the files in `./offline-bin` to a folder on the offline machine's `PATH` (for example `/usr/local/bin`). This works for generators that `install` places in the `-d` folder, such as `csbom`, `syft`, and `trivy`. `cdxgen` installs through npm instead, so it doesn't end up in `-d`.
+
+**Option 2: download the release archive.** On a connected machine, download the generator's release archive for the offline machine's platform, copy it over, extract the binary, and put it in a folder on the `PATH`.
+
+For `csbom`, the archives on the [csbom releases](https://github.com/manifest-cyber/csbom-cli/releases) page are:
+
+| Platform | Archive |
+| --- | --- |
+| Linux x86_64 | `csbom_cli_manylinux_x86.tar.gz` |
+| macOS arm64 | `csbom_cli_osx_arm64.tar.gz` |
+| Windows x86_64 | `csbom_cli_windows_x64.zip` |
+
+```bash
+# On the offline machine, in the folder you copied the archive to
+tar -xzf csbom_cli_manylinux_x86.tar.gz
+sudo cp bin/csbom /usr/local/bin/
+```
+
+For `syft`, download the archive for your platform from the [syft releases](https://github.com/anchore/syft/releases) page and extract the `syft` binary the same way.
+
+**Generator versions**: `generate` checks the installed version of `syft`, `trivy`, and `cdxgen`, and fails with an error such as `syft version X is not supported, must be <= Y` if it's newer than `manifest-cli` supports. When you download an archive yourself, pick a version no newer than that. Option 1 avoids the problem, because without `--version`, `install` picks a supported version of `syft` and `trivy`.
+
+</details>
+
 ### Windows Installation (--native, No WSL Required)
 
 <details>
@@ -479,6 +519,8 @@ When you publish a new version of an asset, the previous versions stay active by
 export MANIFEST_API_KEY=your-api-token
 manifest-cli publish sbom.json --deactivate-older
 ```
+
+`--deactivate-older` only affects *other versions* of the asset. The platform identifies an asset by its name and version, so publishing the same name and version again updates the existing asset instead of creating a new one, and the SBOMs already published for that version stay active alongside the new one. To have a republish replace what's active, give it a new version, for example with `--version`. If an SBOM has no version, Manifest uses a checksum of the file, so republishing an unchanged file counts as the same version.
 
 By default this deactivates *every* older version of the asset. To narrow it to older versions carrying specific labels, add `--deactivate-label` (repeatable). Each value is matched against the asset's labels, and only matching older versions are deactivated. `--deactivate-label` requires `--deactivate-older`:
 

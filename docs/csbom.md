@@ -26,6 +26,9 @@ This makes `csbom` especially effective for:
 manifest-cli install -g csbom
 ```
 
+On a machine without internet access, see
+[Offline or Air-Gapped Installation](../README.md#offline-or-air-gapped-installation).
+
 ## Generating a C/C++ SBOM
 
 ```bash
