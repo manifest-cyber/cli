@@ -1,0 +1,24 @@
+README.md
+  s_0bb91a157c5613::t_c34645fdc85740 523-524
+  s_0bb91a157c5613::t_e078055e748bdd 251-290
+docs/csbom.md
+  s_0bb91a157c5613::t_554408618c418f 29-31
+ARGUMENTS.md
+  s_0bb91a157c5613::t_7f66123757b1a8 155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0fbe39d466280563e11de91c06729cbfea67a451",
+  "prompts": {},
+  "sessions": {
+    "s_0bb91a157c5613": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fb598e00-eb6c-462d-8b9d-3040f2693ff7",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Marina Rosa <mrosa@manifestcyber.com>"
+    }
+  }
+}
