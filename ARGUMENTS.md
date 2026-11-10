@@ -152,7 +152,7 @@ Publish SBOM(s) to the Manifest platform.
 
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
-| `--deactivate-older` | `-d` | bool | `false` | Mark previous versions of this asset as inactive when publishing this SBOM |
+| `--deactivate-older` | `-d` | bool | `false` | Mark previous versions of this asset as inactive when publishing this SBOM. Republishing the same name and version keeps that version's earlier SBOMs active; see [Deactivating Older Versions](README.md#deactivating-older-versions) |
 | `--deactivate-label` | - | []string | - | Restrict `--deactivate-older` to assets carrying any of these labels (repeatable; requires `--deactivate-older`) |
 | `--replace-in-product` | - | bool | `false` | After upload, replace the asset's prior version in the product inventory (requires `--product-id`) |
 
